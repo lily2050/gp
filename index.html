@@ -42,11 +42,14 @@
         .status-error { background: #fee2e2; color: #991b1b; }
 
         /* KPI Stats Cards */
-        .stats-grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 12px; }
+        .stats-grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+        .stat-card-top { display: flex; align-items: center; gap: 10px; }
         .stat-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-        .stat-info h3 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 3px; font-weight: 700; }
+        .stat-info h3 { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 3px; font-weight: 700; }
         .stat-info p { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
+        .stat-selectors { display: flex; gap: 4px; border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 2px; }
+        .stat-selectors select { font-size: 0.78rem; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--border); width: 50%; font-weight: 600; background: #fff; }
 
         /* Tabs */
         .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
@@ -75,6 +78,12 @@
         th:hover { background: #f1f5f9; }
         tr:hover td { background: #f8fafc; }
 
+        /* تنسيقات نوع بيانات الخلية */
+        .type-badge { font-size: 0.7rem; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; margin-right: 4px; font-weight: normal; }
+        .cell-number, .cell-currency, .cell-percent { text-align: left; font-family: monospace, 'Tajawal'; font-weight: 600; }
+        .cell-currency { color: #166534; }
+        .cell-date { text-align: center; color: #1e40af; font-family: monospace, 'Tajawal'; }
+
         /* Pagination */
         .table-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .pagination { display: flex; align-items: center; gap: 6px; }
@@ -82,11 +91,13 @@
         .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* Dropdown columns menu */
+        /* Dropdown menus */
         .dropdown { position: relative; }
-        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 260px; overflow-y: auto; z-index: 50; min-width: 210px; }
+        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 280px; overflow-y: auto; z-index: 50; min-width: 250px; }
         .dropdown-menu.show { display: block; }
         .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; cursor: pointer; }
+        .type-config-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; gap: 8px; }
+        .type-config-row select { font-size: 0.8rem; padding: 3px 6px; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -184,10 +195,10 @@
     <div class="card header">
         <div class="brand">
             <h1><i class="fa-solid fa-chart-pie"></i> لوحة بيانات وتحليلات Excel</h1>
-            <span>M_Lily للحلول والخدمات البرمجية المتكاملة</span> 
+            <span>M_Lily </span>
             <div>
-                <span class="business-badge"><i class="fa-solid fa-laptop-code"></i> استشاري كمبيوتر - بورفؤاد، بورسعيد</span> 
-                <span class="business-badge" style="background:#fef3c7; color:#92400e;"><i class="fa-solid fa-phone"></i> 01010678020</span> 
+                <span class="business-badge"><i class="fa-solid fa-laptop-code"></i>  بورفؤاد، بورسعيد [cite: 1]</span>
+                <span class="business-badge" style="background:#fef3c7; color:#92400e;"><i class="fa-solid fa-phone"></i> 01060799600 [cite: 1]</span>
             </div>
         </div>
         <div id="statusBadge" class="status status-loading">
@@ -210,9 +221,19 @@
             
             <div class="dropdown">
                 <button class="btn btn-secondary" onclick="toggleColMenu(event)">
-                    <i class="fa-solid fa-eye"></i> تخصيص أعمدة الجدول
+                    <i class="fa-solid fa-eye"></i> تخصيص الأعمدة
                 </button>
                 <div id="colMenu" class="dropdown-menu"></div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary" onclick="toggleTypesMenu(event)">
+                    <i class="fa-solid fa-sliders"></i> نوع بيانات الأعمدة
+                </button>
+                <div id="typesMenu" class="dropdown-menu" style="min-width: 270px;">
+                    <div style="font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">تحديد نوع كل عمود:</div>
+                    <div id="typesList"></div>
+                </div>
             </div>
 
             <select id="sheetSelector" style="display: none;" onchange="switchSheet()"></select>
@@ -264,38 +285,102 @@
     <div id="chartsTab" class="card tab-content">
         <div class="stats-grid-5">
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-calculator"></i></div>
-                <div class="stat-info">
-                    <h3 id="chartKpiSumTitle">إجمالي القيم (الرسم 1)</h3>
-                    <p id="chartKpiSum">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_1">الكرت 1</h3>
+                        <p id="kpi_val_1">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_1" onchange="calculateSingleKPI(1)"></select>
+                    <select id="kpi_op_1" onchange="calculateSingleKPI(1)">
+                        <option value="sum" selected>مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <div class="stat-info">
-                    <h3 id="chartKpiAvgTitle">المتوسط الحسابي (الرسم 1)</h3>
-                    <p id="chartKpiAvg">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_2">الكرت 2</h3>
+                        <p id="kpi_val_2">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_2" onchange="calculateSingleKPI(2)"></select>
+                    <select id="kpi_op_2" onchange="calculateSingleKPI(2)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg" selected>متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
-                <div class="stat-info">
-                    <h3>أعلى قيمة (Max)</h3>
-                    <p id="chartKpiMax">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_3">الكرت 3</h3>
+                        <p id="kpi_val_3">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_3" onchange="calculateSingleKPI(3)"></select>
+                    <select id="kpi_op_3" onchange="calculateSingleKPI(3)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max" selected>أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
-                <div class="stat-info">
-                    <h3>أدنى قيمة (Min)</h3>
-                    <p id="chartKpiMin">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_4">الكرت 4</h3>
+                        <p id="kpi_val_4">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_4" onchange="calculateSingleKPI(4)"></select>
+                    <select id="kpi_op_4" onchange="calculateSingleKPI(4)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min" selected>أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
-                <div class="stat-info">
-                    <h3>عدد الفئات (Items)</h3>
-                    <p id="chartKpiCategories">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_5">الكرت 5</h3>
+                        <p id="kpi_val_5">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_5" onchange="calculateSingleKPI(5)"></select>
+                    <select id="kpi_op_5" onchange="calculateSingleKPI(5)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count" selected>تكرار</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -419,7 +504,7 @@
     </div>
 
     <div class="footer-credits">
-        M_Lily - استشاري كمبيوتر وتطوير البرمجيات | بورفؤاد - بورسعيد 
+        M_Lily - استشاري كمبيوتر وتطوير البرمجيات | بورفؤاد - بورسعيد [cite: 1]
     </div>
 </div>
 
@@ -431,6 +516,7 @@
     let filteredDataset = [];
     let headers = [];
     let activeHeaders = new Set();
+    let columnDataTypes = {};
     
     let currentPage = 1;
     let rowsPerPage = 25;
@@ -451,8 +537,9 @@
         loadExcelData();
 
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('#colMenu') && !e.target.closest('.btn-secondary')) {
+            if (!e.target.closest('#colMenu') && !e.target.closest('.btn-secondary') && !e.target.closest('#typesMenu')) {
                 document.getElementById('colMenu').classList.remove('show');
+                document.getElementById('typesMenu').classList.remove('show');
             }
         });
     });
@@ -519,6 +606,30 @@
         loadSheetData(sheetName);
     }
 
+    // التعرف التلقائي الذكي على أنواع بيانات الأعمدة
+    function detectColumnTypes() {
+        columnDataTypes = {};
+        headers.forEach(h => {
+            let isNum = false, isDate = false;
+            for (let i = 0; i < Math.min(fullDataset.length, 25); i++) {
+                const val = fullDataset[i][h];
+                if (val === "" || val === null || val === undefined) continue;
+                
+                // كشف التاريخ النصي أو الرقمي
+                if (typeof val === 'string' && (val.includes('-') || val.includes('/')) && !isNaN(Date.parse(val))) {
+                    isDate = true;
+                    break;
+                }
+                if (!isNaN(parseFloat(val)) && isFinite(val)) {
+                    isNum = true;
+                }
+            }
+            if (isDate) columnDataTypes[h] = 'date';
+            else if (isNum) columnDataTypes[h] = 'number';
+            else columnDataTypes[h] = 'text';
+        });
+    }
+
     function loadSheetData(sheetName) {
         const sheet = rawWorkbook.Sheets[sheetName];
         fullDataset = XLSX.utils.sheet_to_json(sheet, { defval: "" });
@@ -533,44 +644,47 @@
         filteredDataset = [...fullDataset];
         currentPage = 1;
 
+        detectColumnTypes();
         buildColumnMenu();
+        buildTypesMenu();
         populateAllChartSelectors();
+        populateAllKPISelectors();
         renderTable();
+        calculateAllKPIs();
         renderAllCharts();
     }
 
-    // دالة التنسيق التلقائي الافتراضي للقيم والتواريخ
-    function formatAutoCellValue(val) {
+    // دالة تنسيق التاريخ والبيانات الشاملة
+    function formatCellValue(val, type) {
         if (val === "" || val === null || val === undefined) return "";
         
-        // 1. فحص التواريخ الرقمية التسلسلية للإكسل
-        if (typeof val === 'number' && val > 20000 && val < 60000 && Number.isInteger(val)) {
-            const d = new Date(Math.round((val - 25569) * 86400 * 1000));
-            if (!isNaN(d.getTime())) {
-                const year = d.getFullYear();
-                const month = String(d.getMonth() + 1).padStart(2, '0');
-                const day = String(d.getDate()).padStart(2, '0');
+        if (type === 'number') {
+            const n = parseFloat(val);
+            return !isNaN(n) ? n.toLocaleString('ar-EG') : val;
+        } else if (type === 'currency') {
+            const n = parseFloat(val);
+            return !isNaN(n) ? n.toLocaleString('ar-EG', { style: 'currency', currency: 'EGP' }) : val;
+        } else if (type === 'percent') {
+            const n = parseFloat(val);
+            return !isNaN(n) ? (n > 1 ? n.toFixed(1) : (n * 100).toFixed(1)) + '%' : val;
+        } else if (type === 'date') {
+            // معالجة تواريخ إكسل الرقمية (Excel Serial Number) أو النصوص
+            let parsedDate = null;
+            if (typeof val === 'number' && val > 20000 && val < 60000) {
+                // صيغة أرقام الأيام التسلسلية في الإكسل
+                parsedDate = new Date(Math.round((val - 25569) * 86400 * 1000));
+            } else {
+                parsedDate = new Date(val);
+            }
+
+            if (parsedDate && !isNaN(parsedDate.getTime())) {
+                const year = parsedDate.getFullYear();
+                const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+                const day = String(parsedDate.getDate()).padStart(2, '0');
                 return `${year}-${month}-${day}`;
             }
+            return val;
         }
-
-        // 2. فحص التواريخ النصية
-        if (typeof val === 'string' && (val.includes('-') || val.includes('/')) && val.length <= 25) {
-            const d = new Date(val);
-            if (!isNaN(d.getTime()) && d.getFullYear() > 1970 && d.getFullYear() < 2100) {
-                const year = d.getFullYear();
-                const month = String(d.getMonth() + 1).padStart(2, '0');
-                const day = String(d.getDate()).padStart(2, '0');
-                return `${year}-${month}-${day}`;
-            }
-        }
-
-        // 3. فحص الأرقام العادية
-        const num = parseFloat(val);
-        if (typeof val === 'number' || (!isNaN(num) && String(val).trim() === String(num))) {
-            return num.toLocaleString('ar-EG');
-        }
-
         return val;
     }
 
@@ -609,7 +723,8 @@
             if (sortColumn === col) {
                 sortIcon = sortAsc ? '<i class="fa-solid fa-arrow-up-short-wide" style="color: var(--primary); margin-right: 4px;"></i>' : '<i class="fa-solid fa-arrow-down-wide-short" style="color: var(--primary); margin-right: 4px;"></i>';
             }
-            html += `<th onclick="sortTable('${col}')">${col} ${sortIcon}</th>`;
+            const typeLabel = columnDataTypes[col] || 'text';
+            html += `<th onclick="sortTable('${col}')">${col} <span class="type-badge">${getTypeTitle(typeLabel)}</span> ${sortIcon}</th>`;
         });
         html += '</tr></thead><tbody>';
 
@@ -620,8 +735,9 @@
                 html += '<tr>';
                 html += `<td style="text-align: center; color: #94a3b8; font-weight: bold;">${start + idx + 1}</td>`;
                 visibleCols.forEach(col => {
-                    const formatted = formatAutoCellValue(row[col]);
-                    html += `<td>${formatted}</td>`;
+                    const type = columnDataTypes[col] || 'text';
+                    const formatted = formatCellValue(row[col], type);
+                    html += `<td class="cell-${type}">${formatted}</td>`;
                 });
                 html += '</tr>';
             });
@@ -634,6 +750,14 @@
         document.getElementById('totalFilterCount').innerText = filteredDataset.length;
 
         renderPaginationControls();
+    }
+
+    function getTypeTitle(t) {
+        if (t === 'number') return 'رقم';
+        if (t === 'currency') return 'عملة';
+        if (t === 'date') return 'تاريخ';
+        if (t === 'percent') return 'نسبة %';
+        return 'نص';
     }
 
     function sortTable(col) {
@@ -714,9 +838,39 @@
         });
     }
 
+    function buildTypesMenu() {
+        const list = document.getElementById('typesList');
+        list.innerHTML = '';
+        headers.forEach(h => {
+            const row = document.createElement('div');
+            row.className = 'type-config-row';
+            row.innerHTML = `
+                <span style="font-weight:700;">${h}:</span>
+                <select onchange="updateColType('${h}', this.value)">
+                    <option value="text" ${columnDataTypes[h] === 'text' ? 'selected' : ''}>نصي</option>
+                    <option value="number" ${columnDataTypes[h] === 'number' ? 'selected' : ''}>رقمي</option>
+                    <option value="currency" ${columnDataTypes[h] === 'currency' ? 'selected' : ''}>عملة (ج.م)</option>
+                    <option value="date" ${columnDataTypes[h] === 'date' ? 'selected' : ''}>تاريخ</option>
+                    <option value="percent" ${columnDataTypes[h] === 'percent' ? 'selected' : ''}>نسبة %</option>
+                </select>
+            `;
+            list.appendChild(row);
+        });
+    }
+
+    function updateColType(col, type) {
+        columnDataTypes[col] = type;
+        renderTable();
+    }
+
     function toggleColMenu(e) {
         e.stopPropagation();
         document.getElementById('colMenu').classList.toggle('show');
+    }
+
+    function toggleTypesMenu(e) {
+        e.stopPropagation();
+        document.getElementById('typesMenu').classList.toggle('show');
     }
 
     function toggleSingleColumn(col, isChecked) {
@@ -755,6 +909,63 @@
         }
     }
 
+    function populateAllKPISelectors() {
+        for (let i = 1; i <= 5; i++) {
+            const colSel = document.getElementById(`kpi_col_${i}`);
+            if (!colSel) continue;
+            colSel.innerHTML = '';
+            headers.forEach(h => {
+                colSel.innerHTML += `<option value="${h}">${h}</option>`;
+            });
+            if (headers.length > 1) {
+                colSel.selectedIndex = Math.min(i - 1, headers.length - 1);
+            }
+        }
+    }
+
+    function calculateSingleKPI(kpiNum) {
+        if (!fullDataset.length) return;
+        const colEl = document.getElementById(`kpi_col_${kpiNum}`);
+        const opEl = document.getElementById(`kpi_op_${kpiNum}`);
+        const titleEl = document.getElementById(`kpi_title_${kpiNum}`);
+        const valEl = document.getElementById(`kpi_val_${kpiNum}`);
+
+        if (!colEl || !opEl || !titleEl || !valEl) return;
+
+        const col = colEl.value;
+        const op = opEl.value;
+        
+        let val = 0;
+        let title = '';
+
+        const numericVals = fullDataset.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
+
+        if (op === 'sum') {
+            val = numericVals.reduce((a, b) => a + b, 0);
+            title = `مجموع (${col})`;
+        } else if (op === 'avg') {
+            val = numericVals.length ? (numericVals.reduce((a, b) => a + b, 0) / numericVals.length) : 0;
+            title = `متوسط (${col})`;
+        } else if (op === 'max') {
+            val = numericVals.length ? Math.max(...numericVals) : 0;
+            title = `أعلى (${col})`;
+        } else if (op === 'min') {
+            val = numericVals.length ? Math.min(...numericVals) : 0;
+            title = `أدنى (${col})`;
+        } else if (op === 'count') {
+            const unique = new Set(fullDataset.map(r => r[col]));
+            val = unique.size;
+            title = `تكرار/فئات (${col})`;
+        }
+
+        titleEl.innerText = title;
+        valEl.innerText = (op === 'avg') ? Number(val.toFixed(2)).toLocaleString('ar-EG') : Number(val).toLocaleString('ar-EG');
+    }
+
+    function calculateAllKPIs() {
+        for (let i = 1; i <= 5; i++) calculateSingleKPI(i);
+    }
+
     function getCommonDataLabels(isCircular = false) {
         return {
             color: isCircular ? '#ffffff' : '#0f172a',
@@ -786,13 +997,10 @@
         else if (chartNum === 5) chartType = 'polarArea';
 
         const grouped = {};
-        const numericValues = [];
 
         fullDataset.forEach(row => {
             const key = String(row[xCol] || 'غير محدد');
             const val = parseFloat(row[yCol]) || 0;
-            numericValues.push(val);
-
             if (!grouped[key]) grouped[key] = { sum: 0, count: 0 };
             grouped[key].sum += val;
             grouped[key].count += 1;
@@ -807,23 +1015,6 @@
             dataPoints = keys.map(k => Number((grouped[k].sum / grouped[k].count).toFixed(2)));
         } else if (agg === 'count') {
             dataPoints = keys.map(k => grouped[k].count);
-        }
-
-        if (chartNum === 1) {
-            const totalSum = numericValues.reduce((a, b) => a + b, 0);
-            const avgVal = numericValues.length ? (totalSum / numericValues.length) : 0;
-            const maxVal = numericValues.length ? Math.max(...numericValues) : 0;
-            const minVal = numericValues.length ? Math.min(...numericValues) : 0;
-            const totalCategories = Object.keys(grouped).length;
-
-            document.getElementById('chartKpiSum').innerText = totalSum.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiAvg').innerText = avgVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiMax').innerText = maxVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiMin').innerText = minVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiCategories').innerText = totalCategories.toLocaleString('ar-EG');
-
-            document.getElementById('chartKpiSumTitle').innerText = `إجمالي (${yCol})`;
-            document.getElementById('chartKpiAvgTitle').innerText = `متوسط (${yCol})`;
         }
 
         const canvasId = `canvas_chart_${chartNum}`;
