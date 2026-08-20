@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M_Lily | لوحة تحليلات وإدارة بيانات Excel المتقدمة</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -28,10 +21,8 @@
         body { background-color: var(--bg); color: var(--text-main); padding: 20px 15px; direction: rtl; }
         .container { max-width: 1300px; margin: auto; }
 
-        /* Card Styles */
         .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); }
         
-        /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         .brand h1 { font-size: 1.5rem; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
         .brand span { font-size: 0.85rem; color: var(--text-muted); }
@@ -42,11 +33,11 @@
         .status-error { background: #fee2e2; color: #991b1b; }
 
         /* KPI Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; display: flex; align-items: center; gap: 15px; }
-        .stat-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
-        .stat-info h3 { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
-        .stat-info p { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
+        .stats-grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 12px; }
+        .stat-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .stat-info h3 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 3px; }
+        .stat-info p { font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
 
         /* Tabs */
         .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
@@ -58,7 +49,7 @@
         .controls-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
         .controls-left, .controls-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         input[type="text"], select { padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; outline: none; transition: 0.2s; }
-        input[type="text"]:focus, select:focus { border-color: var(--primary); ring: 2px solid var(--primary-soft); }
+        input[type="text"]:focus, select:focus { border-color: var(--primary); }
 
         .btn { padding: 9px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .btn:hover { background: var(--primary-light); }
@@ -75,7 +66,7 @@
         th:hover { background: #f1f5f9; }
         tr:hover td { background: #f8fafc; }
 
-        /* Pagination & Footer */
+        /* Pagination */
         .table-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .pagination { display: flex; align-items: center; gap: 6px; }
         .page-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 6px; background: white; cursor: pointer; font-size: 0.85rem; }
@@ -88,7 +79,6 @@
         .dropdown-menu.show { display: block; }
         .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; cursor: pointer; }
 
-        /* Tab Content */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .chart-box { position: relative; width: 100%; min-height: 420px; }
@@ -109,37 +99,6 @@
         </div>
         <div id="statusBadge" class="status status-loading">
             <i class="fa-solid fa-spinner fa-spin"></i> جاري الاتصال بالبيانات...
-        </div>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-database"></i></div>
-            <div class="stat-info">
-                <h3>إجمالي السجلات</h3>
-                <p id="kpiRows">0</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-table-columns"></i></div>
-            <div class="stat-info">
-                <h3>عدد الأعمدة</h3>
-                <p id="kpiCols">0</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-calculator"></i></div>
-            <div class="stat-info">
-                <h3 id="kpiSumLabel">إجمالي القيمة</h3>
-                <p id="kpiSum">0</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
-            <div class="stat-info">
-                <h3 id="kpiAvgLabel">المتوسط الحسابي</h3>
-                <p id="kpiAvg">0</p>
-            </div>
         </div>
     </div>
 
@@ -209,6 +168,44 @@
     </div>
 
     <div id="chartsTab" class="card tab-content">
+        <div class="stats-grid-5">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-calculator"></i></div>
+                <div class="stat-info">
+                    <h3 id="chartKpiSumTitle">إجمالي القيم</h3>
+                    <p id="chartKpiSum">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="stat-info">
+                    <h3 id="chartKpiAvgTitle">المتوسط الحسابي</h3>
+                    <p id="chartKpiAvg">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div class="stat-info">
+                    <h3>أعلى قيمة (Max)</h3>
+                    <p id="chartKpiMax">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                <div class="stat-info">
+                    <h3>أدنى قيمة (Min)</h3>
+                    <p id="chartKpiMin">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+                <div class="stat-info">
+                    <h3>عدد الفئات (Items)</h3>
+                    <p id="chartKpiCategories">0</p>
+                </div>
+            </div>
+        </div>
+
         <div class="controls-bar" style="margin-bottom: 20px; background: #f8fafc; padding: 12px; border-radius: 8px;">
             <div class="controls-left">
                 <label>محور التصنيف (X): <select id="chartXCol" onchange="renderChart()"></select></label>
@@ -233,6 +230,7 @@
                 </label>
             </div>
         </div>
+
         <div class="chart-box">
             <canvas id="analyticsChart"></canvas>
         </div>
@@ -246,7 +244,6 @@
     let headers = [];
     let activeHeaders = new Set();
     
-    // Pagination & Sorting state
     let currentPage = 1;
     let rowsPerPage = 25;
     let sortColumn = null;
@@ -342,37 +339,13 @@
 
         buildColumnMenu();
         populateChartControls();
-        calculateKPIs();
         renderTable();
         renderChart();
-    }
-
-    function calculateKPIs() {
-        document.getElementById('kpiRows').innerText = fullDataset.length.toLocaleString('ar-EG');
-        document.getElementById('kpiCols').innerText = headers.length.toLocaleString('ar-EG');
-
-        // البحث عن أول عمود رقمي لحساب المجموع والمتوسط
-        const numCol = headers.find(h => fullDataset.some(r => !isNaN(parseFloat(r[h])) && isFinite(r[h]) && r[h] !== ""));
-        
-        if (numCol) {
-            const vals = fullDataset.map(r => parseFloat(r[numCol])).filter(v => !isNaN(v));
-            const sum = vals.reduce((a, b) => a + b, 0);
-            const avg = vals.length ? (sum / vals.length) : 0;
-
-            document.getElementById('kpiSumLabel').innerText = `إجمالي (${numCol})`;
-            document.getElementById('kpiAvgLabel').innerText = `متوسط (${numCol})`;
-            document.getElementById('kpiSum').innerText = sum.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('kpiAvg').innerText = avg.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-        } else {
-            document.getElementById('kpiSum').innerText = "-";
-            document.getElementById('kpiAvg').innerText = "-";
-        }
     }
 
     function renderTable() {
         const visibleCols = headers.filter(h => activeHeaders.has(h));
         
-        // Sorting logic
         if (sortColumn) {
             filteredDataset.sort((a, b) => {
                 let valA = a[sortColumn] !== undefined ? a[sortColumn] : "";
@@ -387,7 +360,6 @@
             });
         }
 
-        // Pagination slice
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const pageData = filteredDataset.slice(start, end);
@@ -419,7 +391,6 @@
         html += '</tbody></table>';
         document.getElementById('tableContainer').innerHTML = html;
         
-        // Counter labels
         document.getElementById('showingCount').innerText = pageData.length;
         document.getElementById('totalFilterCount').innerText = filteredDataset.length;
 
@@ -454,7 +425,6 @@
         const container = document.getElementById('paginationControls');
         container.innerHTML = '';
 
-        // Previous button
         const prev = document.createElement('button');
         prev.className = 'page-btn';
         prev.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
@@ -462,7 +432,6 @@
         prev.onclick = () => { currentPage--; renderTable(); };
         container.appendChild(prev);
 
-        // Simple page numbers
         let startPage = Math.max(1, currentPage - 2);
         let endPage = Math.min(totalPages, startPage + 4);
 
@@ -474,7 +443,6 @@
             container.appendChild(btn);
         }
 
-        // Next button
         const next = document.createElement('button');
         next.className = 'page-btn';
         next.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
@@ -525,7 +493,7 @@
         xSel.innerHTML = '';
         ySel.innerHTML = '';
 
-        headers.forEach((h, i) => {
+        headers.forEach((h) => {
             xSel.innerHTML += `<option value="${h}">${h}</option>`;
             ySel.innerHTML += `<option value="${h}">${h}</option>`;
         });
@@ -533,6 +501,7 @@
         if (headers.length > 1) ySel.selectedIndex = 1;
     }
 
+    // رسم وتحديث الرسوم البيانية وحساب الكروت الـ 5
     function renderChart() {
         if (!fullDataset || fullDataset.length === 0) return;
 
@@ -541,18 +510,20 @@
         const chartType = document.getElementById('chartType').value;
         const agg = document.getElementById('aggType').value;
 
-        // Grouping & Aggregating Data
         const grouped = {};
+        const numericValues = [];
+
         fullDataset.forEach(row => {
             const key = String(row[xCol] || 'غير محدد');
             const val = parseFloat(row[yCol]) || 0;
+            numericValues.push(val);
 
             if (!grouped[key]) grouped[key] = { sum: 0, count: 0 };
             grouped[key].sum += val;
             grouped[key].count += 1;
         });
 
-        const keys = Object.keys(grouped).slice(0, 15); // Top 15 categories
+        const keys = Object.keys(grouped).slice(0, 15);
         let dataPoints = [];
 
         if (agg === 'sum') {
@@ -562,6 +533,22 @@
         } else if (agg === 'count') {
             dataPoints = keys.map(k => grouped[k].count);
         }
+
+        // حساب قيم الكروت الإحصائية الـ 5
+        const totalSum = numericValues.reduce((a, b) => a + b, 0);
+        const avgVal = numericValues.length ? (totalSum / numericValues.length) : 0;
+        const maxVal = numericValues.length ? Math.max(...numericValues) : 0;
+        const minVal = numericValues.length ? Math.min(...numericValues) : 0;
+        const totalCategories = Object.keys(grouped).length;
+
+        document.getElementById('chartKpiSum').innerText = totalSum.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
+        document.getElementById('chartKpiAvg').innerText = avgVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
+        document.getElementById('chartKpiMax').innerText = maxVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
+        document.getElementById('chartKpiMin').innerText = minVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
+        document.getElementById('chartKpiCategories').innerText = totalCategories.toLocaleString('ar-EG');
+
+        document.getElementById('chartKpiSumTitle').innerText = `إجمالي (${yCol})`;
+        document.getElementById('chartKpiAvgTitle').innerText = `متوسط (${yCol})`;
 
         if (myChart) myChart.destroy();
 
