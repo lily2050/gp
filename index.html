@@ -89,7 +89,7 @@
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .chart-box { position: relative; width: 100%; min-height: 440px; }
+        .chart-box { position: relative; width: 100%; min-height: 460px; }
 
         @media (max-width: 768px) {
             .controls-bar { flex-direction: column; align-items: stretch; }
@@ -246,7 +246,6 @@
 </div>
 
 <script>
-    // تسجيل إضافة الأرقام على الرسوم
     Chart.register(ChartDataLabels);
 
     let rawWorkbook = null;
@@ -512,7 +511,6 @@
         if (headers.length > 1) ySel.selectedIndex = 1;
     }
 
-    // رسم الرسوم البيانية مع إظهار الأرقام المباشرة
     function renderChart() {
         if (!fullDataset || fullDataset.length === 0) return;
 
@@ -545,7 +543,6 @@
             dataPoints = keys.map(k => grouped[k].count);
         }
 
-        // تحديث الكروت الـ 5
         const totalSum = numericValues.reduce((a, b) => a + b, 0);
         const avgVal = numericValues.length ? (totalSum / numericValues.length) : 0;
         const maxVal = numericValues.length ? Math.max(...numericValues) : 0;
@@ -584,23 +581,31 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 layout: {
-                    padding: { top: isCircular ? 10 : 25 }
+                    padding: { top: isCircular ? 15 : 35 }
                 },
                 plugins: {
                     legend: {
                         position: isCircular ? 'bottom' : 'top',
-                        labels: { font: { family: 'Tajawal', weight: 'bold' } }
+                        labels: { font: { family: 'Tajawal', weight: 'bold', size: 13 } }
                     },
-                    // إعدادات إظهار الأرقام
+                    // إعدادات حجم الخط ووضوح الأرقام
                     datalabels: {
-                        color: isCircular ? '#ffffff' : '#1e293b',
+                        color: isCircular ? '#ffffff' : '#0f172a',
                         anchor: isCircular ? 'center' : 'end',
                         align: isCircular ? 'center' : 'top',
-                        offset: isCircular ? 0 : 4,
+                        offset: isCircular ? 0 : 6,
+                        backgroundColor: isCircular ? 'rgba(0, 0, 0, 0.45)' : 'rgba(255, 255, 255, 0.9)',
+                        borderRadius: 6,
+                        padding: {
+                            top: 3,
+                            bottom: 3,
+                            left: 6,
+                            right: 6
+                        },
                         font: {
                             family: 'Tajawal',
-                            weight: 'bold',
-                            size: 11
+                            weight: '800',
+                            size: 15
                         },
                         formatter: function(value) {
                             return Number(value).toLocaleString('ar-EG');
