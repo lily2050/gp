@@ -78,6 +78,12 @@
         th:hover { background: #f1f5f9; }
         tr:hover td { background: #f8fafc; }
 
+        /* تنسيقات نوع بيانات الخلية */
+        .type-badge { font-size: 0.7rem; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; margin-right: 4px; font-weight: normal; }
+        .cell-number, .cell-currency, .cell-percent { text-align: left; font-family: monospace, 'Tajawal'; font-weight: 600; }
+        .cell-currency { color: #166534; }
+        .cell-date { text-align: center; color: #1e40af; font-family: monospace, 'Tajawal'; }
+
         /* Pagination */
         .table-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .pagination { display: flex; align-items: center; gap: 6px; }
@@ -85,11 +91,13 @@
         .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* Dropdown columns menu */
+        /* Dropdown menus */
         .dropdown { position: relative; }
-        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 260px; overflow-y: auto; z-index: 50; min-width: 210px; }
+        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 280px; overflow-y: auto; z-index: 50; min-width: 250px; }
         .dropdown-menu.show { display: block; }
         .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; cursor: pointer; }
+        .type-config-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; gap: 8px; }
+        .type-config-row select { font-size: 0.8rem; padding: 3px 6px; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -189,8 +197,8 @@
             <h1><i class="fa-solid fa-chart-pie"></i> لوحة بيانات وتحليلات Excel</h1>
             <span>M_Lily للحلول والخدمات البرمجية المتكاملة</span>
             <div>
-                <span class="business-badge"><i class="fa-solid fa-laptop-code"></i> استشاري كمبيوتر - بورفؤاد، بورسعيد</span> [cite: 1]
-                <span class="business-badge" style="background:#fef3c7; color:#92400e;"><i class="fa-solid fa-phone"></i> 01010678020</span> [cite: 1]
+                <span class="business-badge"><i class="fa-solid fa-laptop-code"></i> استشاري كمبيوتر - بورفؤاد، بورسعيد [cite: 1]</span>
+                <span class="business-badge" style="background:#fef3c7; color:#92400e;"><i class="fa-solid fa-phone"></i> 01010678020 [cite: 1]</span>
             </div>
         </div>
         <div id="statusBadge" class="status status-loading">
@@ -213,9 +221,19 @@
             
             <div class="dropdown">
                 <button class="btn btn-secondary" onclick="toggleColMenu(event)">
-                    <i class="fa-solid fa-eye"></i> تخصيص أعمدة الجدول
+                    <i class="fa-solid fa-eye"></i> تخصيص الأعمدة
                 </button>
                 <div id="colMenu" class="dropdown-menu"></div>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary" onclick="toggleTypesMenu(event)">
+                    <i class="fa-solid fa-sliders"></i> نوع بيانات الأعمدة
+                </button>
+                <div id="typesMenu" class="dropdown-menu" style="min-width: 270px;">
+                    <div style="font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">تحديد نوع كل عمود:</div>
+                    <div id="typesList"></div>
+                </div>
             </div>
 
             <select id="sheetSelector" style="display: none;" onchange="switchSheet()"></select>
@@ -498,6 +516,7 @@
     let filteredDataset = [];
     let headers = [];
     let activeHeaders = new Set();
+    let columnDataTypes = {};
     
     let currentPage = 1;
     let rowsPerPage = 25;
@@ -518,12 +537,14 @@
         loadExcelData();
 
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('#colMenu') && !e.target.closest('.btn-secondary')) {
+            if (!e.target.closest('#colMenu') && !e.target.closest('.btn-secondary') && !e.target.closest('#typesMenu')) {
                 document.getElementById('colMenu').classList.remove('show');
+                document.getElementById('typesMenu').classList.remove('show');
             }
         });
     });
 
+    // دالة جلب البيانات السليمة والأصلية
     async function loadExcelData() {
         updateBadge('loading', 'جاري جلب data.xlsx...');
         try {
@@ -585,6 +606,30 @@
         loadSheetData(sheetName);
     }
 
+    // التعرف التلقائي الذكي على أنواع بيانات الأعمدة
+    function detectColumnTypes() {
+        columnDataTypes = {};
+        headers.forEach(h => {
+            let isNum = false, isDate = false;
+            for (let i = 0; i < Math.min(fullDataset.length, 25); i++) {
+                const val = fullDataset[i][h];
+                if (val === "" || val === null || val === undefined) continue;
+                
+                // كشف التاريخ النصي أو الرقمي
+                if (typeof val === 'string' && (val.includes('-') || val.includes('/')) && !isNaN(Date.parse(val))) {
+                    isDate = true;
+                    break;
+                }
+                if (!isNaN(parseFloat(val)) && isFinite(val)) {
+                    isNum = true;
+                }
+            }
+            if (isDate) columnDataTypes[h] = 'date';
+            else if (isNum) columnDataTypes[h] = 'number';
+            else columnDataTypes[h] = 'text';
+        });
+    }
+
     function loadSheetData(sheetName) {
         const sheet = rawWorkbook.Sheets[sheetName];
         fullDataset = XLSX.utils.sheet_to_json(sheet, { defval: "" });
@@ -599,12 +644,48 @@
         filteredDataset = [...fullDataset];
         currentPage = 1;
 
+        detectColumnTypes();
         buildColumnMenu();
+        buildTypesMenu();
         populateAllChartSelectors();
         populateAllKPISelectors();
         renderTable();
         calculateAllKPIs();
         renderAllCharts();
+    }
+
+    // دالة تنسيق التاريخ والبيانات الشاملة
+    function formatCellValue(val, type) {
+        if (val === "" || val === null || val === undefined) return "";
+        
+        if (type === 'number') {
+            const n = parseFloat(val);
+            return !isNaN(n) ? n.toLocaleString('ar-EG') : val;
+        } else if (type === 'currency') {
+            const n = parseFloat(val);
+            return !isNaN(n) ? n.toLocaleString('ar-EG', { style: 'currency', currency: 'EGP' }) : val;
+        } else if (type === 'percent') {
+            const n = parseFloat(val);
+            return !isNaN(n) ? (n > 1 ? n.toFixed(1) : (n * 100).toFixed(1)) + '%' : val;
+        } else if (type === 'date') {
+            // معالجة تواريخ إكسل الرقمية (Excel Serial Number) أو النصوص
+            let parsedDate = null;
+            if (typeof val === 'number' && val > 20000 && val < 60000) {
+                // صيغة أرقام الأيام التسلسلية في الإكسل
+                parsedDate = new Date(Math.round((val - 25569) * 86400 * 1000));
+            } else {
+                parsedDate = new Date(val);
+            }
+
+            if (parsedDate && !isNaN(parsedDate.getTime())) {
+                const year = parsedDate.getFullYear();
+                const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+                const day = String(parsedDate.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            return val;
+        }
+        return val;
     }
 
     function renderTable() {
@@ -642,7 +723,8 @@
             if (sortColumn === col) {
                 sortIcon = sortAsc ? '<i class="fa-solid fa-arrow-up-short-wide" style="color: var(--primary); margin-right: 4px;"></i>' : '<i class="fa-solid fa-arrow-down-wide-short" style="color: var(--primary); margin-right: 4px;"></i>';
             }
-            html += `<th onclick="sortTable('${col}')">${col} ${sortIcon}</th>`;
+            const typeLabel = columnDataTypes[col] || 'text';
+            html += `<th onclick="sortTable('${col}')">${col} <span class="type-badge">${getTypeTitle(typeLabel)}</span> ${sortIcon}</th>`;
         });
         html += '</tr></thead><tbody>';
 
@@ -653,7 +735,9 @@
                 html += '<tr>';
                 html += `<td style="text-align: center; color: #94a3b8; font-weight: bold;">${start + idx + 1}</td>`;
                 visibleCols.forEach(col => {
-                    html += `<td>${row[col] !== undefined ? row[col] : ''}</td>`;
+                    const type = columnDataTypes[col] || 'text';
+                    const formatted = formatCellValue(row[col], type);
+                    html += `<td class="cell-${type}">${formatted}</td>`;
                 });
                 html += '</tr>';
             });
@@ -666,6 +750,14 @@
         document.getElementById('totalFilterCount').innerText = filteredDataset.length;
 
         renderPaginationControls();
+    }
+
+    function getTypeTitle(t) {
+        if (t === 'number') return 'رقم';
+        if (t === 'currency') return 'عملة';
+        if (t === 'date') return 'تاريخ';
+        if (t === 'percent') return 'نسبة %';
+        return 'نص';
     }
 
     function sortTable(col) {
@@ -746,9 +838,39 @@
         });
     }
 
+    function buildTypesMenu() {
+        const list = document.getElementById('typesList');
+        list.innerHTML = '';
+        headers.forEach(h => {
+            const row = document.createElement('div');
+            row.className = 'type-config-row';
+            row.innerHTML = `
+                <span style="font-weight:700;">${h}:</span>
+                <select onchange="updateColType('${h}', this.value)">
+                    <option value="text" ${columnDataTypes[h] === 'text' ? 'selected' : ''}>نصي</option>
+                    <option value="number" ${columnDataTypes[h] === 'number' ? 'selected' : ''}>رقمي</option>
+                    <option value="currency" ${columnDataTypes[h] === 'currency' ? 'selected' : ''}>عملة (ج.م)</option>
+                    <option value="date" ${columnDataTypes[h] === 'date' ? 'selected' : ''}>تاريخ</option>
+                    <option value="percent" ${columnDataTypes[h] === 'percent' ? 'selected' : ''}>نسبة %</option>
+                </select>
+            `;
+            list.appendChild(row);
+        });
+    }
+
+    function updateColType(col, type) {
+        columnDataTypes[col] = type;
+        renderTable();
+    }
+
     function toggleColMenu(e) {
         e.stopPropagation();
         document.getElementById('colMenu').classList.toggle('show');
+    }
+
+    function toggleTypesMenu(e) {
+        e.stopPropagation();
+        document.getElementById('typesMenu').classList.toggle('show');
     }
 
     function toggleSingleColumn(col, isChecked) {
