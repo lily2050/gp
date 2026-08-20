@@ -237,14 +237,13 @@
             </div>
             
             <div style="display: flex; align-items: center; gap: 10px;">
-                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">الصفوف المعروضة:
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">الصفوف بالصفحة:
                     <select id="pageSizeSelect" onchange="changePageSize(this.value)" style="padding: 4px 8px; font-weight: bold; border-radius: 6px;">
                         <option value="10">10</option>
                         <option value="25" selected>25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                         <option value="250">250</option>
-                        <option value="500">500</option>
                         <option value="all">الكل (All)</option>
                     </select>
                 </label>
@@ -482,135 +481,4 @@
     let fullDataset = [];
     let filteredDataset = [];
     let headers = [];
-    let activeHeaders = new Set();
-    
-    let currentPage = 1;
-    let rowsPerPage = 25;
-    let isShowingAll = false;
-    let sortColumn = null;
-    let sortAsc = true;
-
-    const chartInstances = {};
-    const DATA_URL = './data.xlsx';
-
-    const COLOR_PALETTE = [
-        '#1b5e20', '#2563eb', '#d97706', '#dc2626', 
-        '#7c3aed', '#0891b2', '#ca8a04', '#059669', 
-        '#e11d48', '#475569', '#4f46e5', '#0d9488'
-    ];
-
-    window.addEventListener('DOMContentLoaded', () => {
-        loadExcelData();
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('#colMenu') && !e.target.closest('.btn-secondary')) {
-                document.getElementById('colMenu').classList.remove('show');
-            }
-        });
-    });
-
-    async function loadExcelData() {
-        updateBadge('loading', 'جاري جلب data.xlsx...');
-        try {
-            const res = await fetch(DATA_URL + '?nocache=' + Date.now());
-            if (!res.ok) throw new Error('الملف غير متوفر');
-            const buff = await res.arrayBuffer();
-            processWorkbook(buff);
-            updateBadge('success', 'تم تحميل data.xlsx بنجاح');
-        } catch (err) {
-            updateBadge('error', 'تعذر تحميل data.xlsx تلقائياً');
-            document.getElementById('tableContainer').innerHTML = `
-                <div style="text-align: center; padding: 40px;">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: #dc2626; margin-bottom: 12px;"></i>
-                    <p style="font-weight: 700; color: #991b1b;">لم يتم العثور على data.xlsx في المستودع</p>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-top: 6px;">تأكد من رفع الملف باسم <b>data.xlsx</b> أو استخدم زر "ملف محلي" لفتحه مباشرة.</p>
-                </div>`;
-        }
-    }
-
-    function handleLocalFile(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-            processWorkbook(evt.target.result);
-            updateBadge('success', `تم فتح: ${file.name}`);
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    function processWorkbook(buffer) {
-        try {
-            rawWorkbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
-            setupSheetSelector();
-            loadSheetData(rawWorkbook.SheetNames[0]);
-        } catch (err) {
-            alert('حدث خطأ في معالجة بنية ملف الإكسل.');
-        }
-    }
-
-    function setupSheetSelector() {
-        const sel = document.getElementById('sheetSelector');
-        sel.innerHTML = '';
-        if (rawWorkbook.SheetNames.length > 1) {
-            sel.style.display = 'inline-block';
-            rawWorkbook.SheetNames.forEach(sheet => {
-                const opt = document.createElement('option');
-                opt.value = sheet;
-                opt.textContent = `ورقة: ${sheet}`;
-                sel.appendChild(opt);
-            });
-        } else {
-            sel.style.display = 'none';
-        }
-    }
-
-    function switchSheet() {
-        const sheetName = document.getElementById('sheetSelector').value;
-        loadSheetData(sheetName);
-    }
-
-    function loadSheetData(sheetName) {
-        try {
-            const sheet = rawWorkbook.Sheets[sheetName];
-            fullDataset = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-
-            if (fullDataset.length === 0) {
-                document.getElementById('tableContainer').innerHTML = '<p style="text-align: center; padding: 20px;">الورقة المحددة لا تحتوي على بيانات.</p>';
-                return;
-            }
-
-            headers = Object.keys(fullDataset[0]);
-            activeHeaders = new Set(headers);
-            filteredDataset = [...fullDataset];
-            currentPage = 1;
-
-            buildColumnMenu();
-            populateAllChartSelectors();
-            populateAllKPISelectors();
-            renderTable();
-            calculateAllKPIs();
-            renderAllCharts();
-        } catch (e) {
-            console.error("Error loading sheet data:", e);
-        }
-    }
-
-    function renderTable() {
-        const visibleCols = headers.filter(h => activeHeaders.has(h));
-        
-        if (sortColumn) {
-            filteredDataset.sort((a, b) => {
-                let valA = a[sortColumn] !== undefined ? a[sortColumn] : "";
-                let valB = b[sortColumn] !== undefined ? b[sortColumn] : "";
-                
-                let numA = parseFloat(valA);
-                let numB = parseFloat(valB);
-                if (!isNaN(numA) && !isNaN(numB)) {
-                    return sortAsc ? numA - numB : numB - numA;
-                }
-                return sortAsc ? String(valA).localeCompare(String(valB), 'ar') : String(valB).localeCompare(String(valA), 'ar');
-            });
-        }
-
-        let
+    let active
