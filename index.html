@@ -20,72 +20,76 @@
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
-            --text-muted: #475569;
-            --border: #cbd5e1;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
             --radius: 12px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
         body { background-color: var(--bg); color: var(--text-main); padding: 20px 15px; direction: rtl; }
-        .container { max-width: 1400px; margin: auto; }
+        .container { max-width: 1350px; margin: auto; }
 
-        .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1.5px solid var(--border); }
+        .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); }
         
         .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .brand h1 { font-size: 1.6rem; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        .brand span { font-size: 0.95rem; color: var(--text-muted); font-weight: 600; }
+        .brand h1 { font-size: 1.5rem; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .brand span { font-size: 0.85rem; color: var(--text-muted); }
+        .business-badge { font-size: 0.8rem; background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; margin-top: 4px; }
 
-        .status { padding: 6px 16px; border-radius: 30px; font-size: 0.9rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; }
+        .status { padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; }
         .status-loading { background: #fef3c7; color: #92400e; }
         .status-success { background: #dcfce7; color: #166534; }
         .status-error { background: #fee2e2; color: #991b1b; }
 
         /* KPI Stats Cards */
-        .stats-grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
-        .stat-card { background: var(--card-bg); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 14px; }
-        .stat-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
-        .stat-info h3 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 700; }
-        .stat-info p { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+        .stats-grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+        .stat-card-top { display: flex; align-items: center; gap: 10px; }
+        .stat-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .stat-info h3 { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 3px; font-weight: 700; }
+        .stat-info p { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
+        .stat-selectors { display: flex; gap: 4px; border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 2px; }
+        .stat-selectors select { font-size: 0.78rem; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--border); width: 50%; font-weight: 600; background: #fff; }
 
         /* Tabs */
         .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-        .tab-btn { padding: 12px 24px; border: none; background: transparent; border-radius: 8px; cursor: pointer; font-size: 1.05rem; font-weight: 800; color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .tab-btn { padding: 10px 22px; border: none; background: transparent; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 8px; }
         .tab-btn:hover { background: #f1f5f9; color: var(--text-main); }
         .tab-btn.active { background: var(--primary-soft); color: var(--primary); }
 
         /* Controls */
         .controls-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
         .controls-left, .controls-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        input[type="text"], select { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.95rem; font-weight: 600; outline: none; transition: 0.2s; }
+        input[type="text"], select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; outline: none; transition: 0.2s; }
         input[type="text"]:focus, select:focus { border-color: var(--primary); }
 
-        .btn { padding: 10px 18px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .btn { padding: 9px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .btn:hover { background: var(--primary-light); }
-        .btn-outline { background: white; color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
         .btn-outline:hover { background: var(--primary-soft); }
-        .btn-secondary { background: #f1f5f9; color: var(--text-main); border: 1.5px solid var(--border); }
+        .btn-secondary { background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border); }
         .btn-secondary:hover { background: #e2e8f0; }
 
         /* Table */
         .table-wrap { overflow-x: auto; max-height: 550px; border-radius: 8px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; text-align: right; }
-        th, td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.95rem; white-space: nowrap; }
-        th { background: #f8fafc; font-weight: 800; color: #1e293b; position: sticky; top: 0; z-index: 10; cursor: pointer; user-select: none; }
+        th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; white-space: nowrap; }
+        th { background: #f8fafc; font-weight: 700; color: #334155; position: sticky; top: 0; z-index: 10; cursor: pointer; user-select: none; }
         th:hover { background: #f1f5f9; }
         tr:hover td { background: #f8fafc; }
 
         /* Pagination */
         .table-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .pagination { display: flex; align-items: center; gap: 6px; }
-        .page-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); border-radius: 6px; background: white; cursor: pointer; font-size: 0.95rem; font-weight: 700; }
+        .page-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 6px; background: white; cursor: pointer; font-size: 0.85rem; }
         .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         /* Dropdown columns menu */
         .dropdown { position: relative; }
-        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1.5px solid var(--border); padding: 14px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 280px; overflow-y: auto; z-index: 50; min-width: 230px; }
+        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 260px; overflow-y: auto; z-index: 50; min-width: 210px; }
         .dropdown-menu.show { display: block; }
-        .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; }
+        .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; cursor: pointer; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -103,10 +107,10 @@
 
         .chart-box-card {
             background: #ffffff;
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 18px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
             display: flex;
             flex-direction: column;
         }
@@ -119,48 +123,59 @@
             gap: 8px;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 2px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .chart-box-header h4 {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #0f172a;
+            font-size: 0.95rem;
+            color: #1e293b;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .chart-controls-inline {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             flex-wrap: wrap;
-            background: #f1f5f9;
-            padding: 8px 12px;
+            background: #f8fafc;
+            padding: 8px 10px;
             border-radius: 8px;
             margin-bottom: 10px;
-            font-size: 0.9rem;
-            font-weight: 700;
+            font-size: 0.82rem;
         }
 
         .chart-controls-inline label {
             display: flex;
             align-items: center;
-            gap: 6px;
-            color: #334155;
+            gap: 4px;
+            color: var(--text-muted);
+            font-weight: 600;
         }
 
         .chart-box {
             position: relative;
             width: 100%;
-            min-height: 380px;
+            min-height: 360px;
             flex: 1;
         }
 
+        .footer-credits {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            padding: 10px;
+        }
+
         @media (max-width: 950px) {
-            .charts-grid { grid-template-columns: 1fr; }
-            .chart-card-full { grid-column: span 1; }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-card-full {
+                grid-column: span 1;
+            }
             .controls-bar { flex-direction: column; align-items: stretch; }
             .controls-left, .controls-right { width: 100%; justify-content: space-between; }
         }
@@ -173,6 +188,10 @@
         <div class="brand">
             <h1><i class="fa-solid fa-chart-pie"></i> لوحة بيانات وتحليلات Excel</h1>
             <span>M_Lily للحلول والخدمات البرمجية المتكاملة</span>
+            <div>
+                <span class="business-badge"><i class="fa-solid fa-laptop-code"></i> استشاري كمبيوتر - بورفؤاد، بورسعيد</span> [cite: 1]
+                <span class="business-badge" style="background:#fef3c7; color:#92400e;"><i class="fa-solid fa-phone"></i> 01010678020</span> [cite: 1]
+            </div>
         </div>
         <div id="statusBadge" class="status status-loading">
             <i class="fa-solid fa-spinner fa-spin"></i> جاري الاتصال بالبيانات...
@@ -190,7 +209,7 @@
 
     <div class="card controls-bar">
         <div class="controls-left">
-            <input type="text" id="searchBox" placeholder="🔍 بحث فوري في الجدول..." oninput="handleSearch()">
+            <input type="text" id="searchBox" placeholder="🔍 بحث في كامل الجدول..." oninput="handleSearch()">
             
             <div class="dropdown">
                 <button class="btn btn-secondary" onclick="toggleColMenu(event)">
@@ -222,21 +241,22 @@
 
     <div id="tableTab" class="card tab-content active">
         <div class="table-wrap" id="tableContainer">
-            <p style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 1.1rem;">جاري تجهيز الجدول...</p>
+            <p style="text-align: center; padding: 30px; color: var(--text-muted);">جاري تجهيز الجدول...</p>
         </div>
         
         <div class="table-footer">
-            <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted);">
+            <div style="font-size: 0.85rem; color: var(--text-muted);">
                 عرض <span id="showingCount">0</span> من إجمالي <span id="totalFilterCount">0</span> صف
             </div>
             
             <div style="display: flex; align-items: center; gap: 10px;">
-                <label style="font-size: 0.95rem; font-weight: 700; color: var(--text-muted);">الصفوف بالصفحة:
-                    <select id="pageSizeSelect" onchange="changePageSize(this.value)" style="padding: 4px 8px;">
-                        <option value="15">15</option>
-                        <option value="30" selected>30</option>
-                        <option value="60">60</option>
+                <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">الصفوف بالصفحة:
+                    <select id="pageSizeSelect" onchange="changePageSize(this.value)" style="padding: 4px 8px; font-weight: bold;">
+                        <option value="10">10</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
                         <option value="100">100</option>
+                        <option value="all">الكل (All)</option>
                     </select>
                 </label>
                 <div class="pagination" id="paginationControls"></div>
@@ -247,38 +267,102 @@
     <div id="chartsTab" class="card tab-content">
         <div class="stats-grid-5">
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-calculator"></i></div>
-                <div class="stat-info">
-                    <h3 id="chartKpiSumTitle">إجمالي القيم (الرسم 1)</h3>
-                    <p id="chartKpiSum">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_1">الكرت 1</h3>
+                        <p id="kpi_val_1">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_1" onchange="calculateSingleKPI(1)"></select>
+                    <select id="kpi_op_1" onchange="calculateSingleKPI(1)">
+                        <option value="sum" selected>مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <div class="stat-info">
-                    <h3 id="chartKpiAvgTitle">المتوسط الحسابي (الرسم 1)</h3>
-                    <p id="chartKpiAvg">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_2">الكرت 2</h3>
+                        <p id="kpi_val_2">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_2" onchange="calculateSingleKPI(2)"></select>
+                    <select id="kpi_op_2" onchange="calculateSingleKPI(2)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg" selected>متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
-                <div class="stat-info">
-                    <h3>أعلى قيمة (Max)</h3>
-                    <p id="chartKpiMax">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_3">الكرت 3</h3>
+                        <p id="kpi_val_3">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_3" onchange="calculateSingleKPI(3)"></select>
+                    <select id="kpi_op_3" onchange="calculateSingleKPI(3)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max" selected>أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
-                <div class="stat-info">
-                    <h3>أدنى قيمة (Min)</h3>
-                    <p id="chartKpiMin">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_4">الكرت 4</h3>
+                        <p id="kpi_val_4">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_4" onchange="calculateSingleKPI(4)"></select>
+                    <select id="kpi_op_4" onchange="calculateSingleKPI(4)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min" selected>أدنى</option>
+                        <option value="count">تكرار</option>
+                    </select>
                 </div>
             </div>
+
             <div class="stat-card">
-                <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
-                <div class="stat-info">
-                    <h3>عدد الفئات (Items)</h3>
-                    <p id="chartKpiCategories">0</p>
+                <div class="stat-card-top">
+                    <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+                    <div class="stat-info">
+                        <h3 id="kpi_title_5">الكرت 5</h3>
+                        <p id="kpi_val_5">0</p>
+                    </div>
+                </div>
+                <div class="stat-selectors">
+                    <select id="kpi_col_5" onchange="calculateSingleKPI(5)"></select>
+                    <select id="kpi_op_5" onchange="calculateSingleKPI(5)">
+                        <option value="sum">مجموع</option>
+                        <option value="avg">متوسط</option>
+                        <option value="max">أعلى</option>
+                        <option value="min">أدنى</option>
+                        <option value="count" selected>تكرار</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -286,10 +370,10 @@
         <div class="charts-grid">
             <div class="chart-box-card chart-card-full">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> 1. الرسم البياني التفاعلي الشامل</h4>
+                    <h4><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> 1. الرسم البياني التفاعلي العام</h4>
                 </div>
                 <div class="chart-controls-inline">
-                    <label>نوع الرسم:
+                    <label>النوع:
                         <select id="c1_type" onchange="renderSingleChart(1)">
                             <option value="bar">أعمدة (Bar)</option>
                             <option value="line">خطي (Line)</option>
@@ -300,7 +384,7 @@
                     </label>
                     <label>محور (X): <select id="c1_x" onchange="renderSingleChart(1)"></select></label>
                     <label>محور (Y): <select id="c1_y" onchange="renderSingleChart(1)"></select></label>
-                    <label>الحساب:
+                    <label>التجميع:
                         <select id="c1_agg" onchange="renderSingleChart(1)">
                             <option value="sum">مجموع (Sum)</option>
                             <option value="avg">متوسط (Avg)</option>
@@ -315,12 +399,12 @@
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-chart-bar" style="color: #2563eb;"></i> 2. رسم مقارنة الأعمدة (Bar)</h4>
+                    <h4><i class="fa-solid fa-chart-bar" style="color: #2563eb;"></i> 2. رسم الأعمدة المقارن</h4>
                 </div>
                 <div class="chart-controls-inline">
                     <label>محور (X): <select id="c2_x" onchange="renderSingleChart(2)"></select></label>
                     <label>محور (Y): <select id="c2_y" onchange="renderSingleChart(2)"></select></label>
-                    <label>الحساب:
+                    <label>التجميع:
                         <select id="c2_agg" onchange="renderSingleChart(2)">
                             <option value="sum">مجموع</option>
                             <option value="avg">متوسط</option>
@@ -335,7 +419,7 @@
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-chart-pie" style="color: #d97706;"></i> 3. توزيع النسب والحصص</h4>
+                    <h4><i class="fa-solid fa-chart-pie" style="color: #d97706;"></i> 3. رسم النسب والتوزيع</h4>
                 </div>
                 <div class="chart-controls-inline">
                     <label>النوع:
@@ -346,9 +430,10 @@
                     </label>
                     <label>محور (X): <select id="c3_x" onchange="renderSingleChart(3)"></select></label>
                     <label>محور (Y): <select id="c3_y" onchange="renderSingleChart(3)"></select></label>
-                    <label>الحساب:
+                    <label>التجميع:
                         <select id="c3_agg" onchange="renderSingleChart(3)">
                             <option value="sum">مجموع</option>
+                            <option value="avg">متوسط</option>
                             <option value="count">تكرار</option>
                         </select>
                     </label>
@@ -360,15 +445,16 @@
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-arrow-trend-up" style="color: #7c3aed;"></i> 4. مسار واتجاه التطور (Line)</h4>
+                    <h4><i class="fa-solid fa-arrow-trend-up" style="color: #7c3aed;"></i> 4. رسم الاتجاه والتطور (Line)</h4>
                 </div>
                 <div class="chart-controls-inline">
                     <label>محور (X): <select id="c4_x" onchange="renderSingleChart(4)"></select></label>
                     <label>محور (Y): <select id="c4_y" onchange="renderSingleChart(4)"></select></label>
-                    <label>الحساب:
+                    <label>التجميع:
                         <select id="c4_agg" onchange="renderSingleChart(4)">
                             <option value="sum">مجموع</option>
                             <option value="avg">متوسط</option>
+                            <option value="count">تكرار</option>
                         </select>
                     </label>
                 </div>
@@ -379,14 +465,15 @@
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-compass" style="color: #0891b2;"></i> 5. التوزيع النسبي القطبي (Polar Area)</h4>
+                    <h4><i class="fa-solid fa-compass" style="color: #0891b2;"></i> 5. رسم التوزيع القطبي (Polar Area)</h4>
                 </div>
                 <div class="chart-controls-inline">
                     <label>محور (X): <select id="c5_x" onchange="renderSingleChart(5)"></select></label>
                     <label>محور (Y): <select id="c5_y" onchange="renderSingleChart(5)"></select></label>
-                    <label>الحساب:
+                    <label>التجميع:
                         <select id="c5_agg" onchange="renderSingleChart(5)">
                             <option value="sum">مجموع</option>
+                            <option value="avg">متوسط</option>
                             <option value="count">تكرار</option>
                         </select>
                     </label>
@@ -396,6 +483,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="footer-credits">
+        M_Lily - استشاري كمبيوتر وتطوير البرمجيات | بورفؤاد - بورسعيد [cite: 1]
     </div>
 </div>
 
@@ -409,10 +500,10 @@
     let activeHeaders = new Set();
     
     let currentPage = 1;
-    let rowsPerPage = 30;
+    let rowsPerPage = 25;
+    let isShowingAll = false;
     let sortColumn = null;
     let sortAsc = true;
-    let chartsInitialized = false;
 
     const chartInstances = {};
     const DATA_URL = './data.xlsx';
@@ -440,14 +531,14 @@
             if (!res.ok) throw new Error('الملف غير متوفر');
             const buff = await res.arrayBuffer();
             processWorkbook(buff);
-            updateBadge('success', 'تم الاتصال بالملف بنجاح');
+            updateBadge('success', 'تم تحميل data.xlsx بنجاح');
         } catch (err) {
-            updateBadge('error', 'تعذر جلب data.xlsx تلقائياً');
+            updateBadge('error', 'تعذر تحميل data.xlsx تلقائياً');
             document.getElementById('tableContainer').innerHTML = `
                 <div style="text-align: center; padding: 40px;">
                     <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: #dc2626; margin-bottom: 12px;"></i>
-                    <p style="font-weight: 700; color: #991b1b; font-size: 1.1rem;">لم يتم العثور على data.xlsx</p>
-                    <p style="color: #64748b; font-size: 0.95rem; margin-top: 6px;">تأكد من وجود الملف باسم <b>data.xlsx</b> بجانب <code>index.html</code> أو اختر ملفاً من جهازك.</p>
+                    <p style="font-weight: 700; color: #991b1b;">لم يتم العثور على data.xlsx في المستودع</p>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-top: 6px;">تأكد من رفع الملف باسم <b>data.xlsx</b> أو استخدم زر "ملف محلي" لفتحه مباشرة.</p>
                 </div>`;
         }
     }
@@ -469,7 +560,7 @@
             setupSheetSelector();
             loadSheetData(rawWorkbook.SheetNames[0]);
         } catch (err) {
-            alert('حدث خطأ في قراءة ملف الإكسل.');
+            alert('حدث خطأ في معالجة بنية ملف الإكسل.');
         }
     }
 
@@ -499,7 +590,7 @@
         fullDataset = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
         if (fullDataset.length === 0) {
-            document.getElementById('tableContainer').innerHTML = '<p style="text-align: center; padding: 20px; font-size: 1.1rem;">الورقة المحددة فارغة.</p>';
+            document.getElementById('tableContainer').innerHTML = '<p style="text-align: center; padding: 20px;">الورقة المحددة لا تحتوي على بيانات.</p>';
             return;
         }
 
@@ -507,11 +598,13 @@
         activeHeaders = new Set(headers);
         filteredDataset = [...fullDataset];
         currentPage = 1;
-        chartsInitialized = false;
 
         buildColumnMenu();
         populateAllChartSelectors();
+        populateAllKPISelectors();
         renderTable();
+        calculateAllKPIs();
+        renderAllCharts();
     }
 
     function renderTable() {
@@ -521,15 +614,26 @@
             filteredDataset.sort((a, b) => {
                 let valA = a[sortColumn] !== undefined ? a[sortColumn] : "";
                 let valB = b[sortColumn] !== undefined ? b[sortColumn] : "";
-                let numA = parseFloat(valA), numB = parseFloat(valB);
-                if (!isNaN(numA) && !isNaN(numB)) return sortAsc ? numA - numB : numB - numA;
+                
+                let numA = parseFloat(valA);
+                let numB = parseFloat(valB);
+                if (!isNaN(numA) && !isNaN(numB)) {
+                    return sortAsc ? numA - numB : numB - numA;
+                }
                 return sortAsc ? String(valA).localeCompare(String(valB), 'ar') : String(valB).localeCompare(String(valA), 'ar');
             });
         }
 
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const pageData = filteredDataset.slice(start, end);
+        let pageData = [];
+        let start = 0;
+
+        if (isShowingAll) {
+            pageData = filteredDataset;
+        } else {
+            start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            pageData = filteredDataset.slice(start, end);
+        }
 
         let html = '<table><thead><tr>';
         html += '<th style="width: 45px; text-align: center;">#</th>';
@@ -543,7 +647,7 @@
         html += '</tr></thead><tbody>';
 
         if (pageData.length === 0) {
-            html += `<tr><td colspan="${visibleCols.length + 1}" style="text-align: center; padding: 25px; color: var(--text-muted); font-size: 1.05rem;">لا توجد نتائج مطابقة للبحث</td></tr>`;
+            html += `<tr><td colspan="${visibleCols.length + 1}" style="text-align: center; padding: 20px; color: var(--text-muted);">لا توجد نتائج مطابقة للبحث</td></tr>`;
         } else {
             pageData.forEach((row, idx) => {
                 html += '<tr>';
@@ -557,6 +661,7 @@
 
         html += '</tbody></table>';
         document.getElementById('tableContainer').innerHTML = html;
+        
         document.getElementById('showingCount').innerText = pageData.length;
         document.getElementById('totalFilterCount').innerText = filteredDataset.length;
 
@@ -587,9 +692,12 @@
     }
 
     function renderPaginationControls() {
-        const totalPages = Math.ceil(filteredDataset.length / rowsPerPage) || 1;
         const container = document.getElementById('paginationControls');
         container.innerHTML = '';
+
+        if (isShowingAll) return;
+
+        const totalPages = Math.ceil(filteredDataset.length / rowsPerPage) || 1;
 
         const prev = document.createElement('button');
         prev.className = 'page-btn';
@@ -618,7 +726,12 @@
     }
 
     function changePageSize(size) {
-        rowsPerPage = parseInt(size);
+        if (size === 'all') {
+            isShowingAll = true;
+        } else {
+            isShowingAll = false;
+            rowsPerPage = parseInt(size);
+        }
         currentPage = 1;
         renderTable();
     }
@@ -674,15 +787,72 @@
         }
     }
 
+    function populateAllKPISelectors() {
+        for (let i = 1; i <= 5; i++) {
+            const colSel = document.getElementById(`kpi_col_${i}`);
+            if (!colSel) continue;
+            colSel.innerHTML = '';
+            headers.forEach(h => {
+                colSel.innerHTML += `<option value="${h}">${h}</option>`;
+            });
+            if (headers.length > 1) {
+                colSel.selectedIndex = Math.min(i - 1, headers.length - 1);
+            }
+        }
+    }
+
+    function calculateSingleKPI(kpiNum) {
+        if (!fullDataset.length) return;
+        const colEl = document.getElementById(`kpi_col_${kpiNum}`);
+        const opEl = document.getElementById(`kpi_op_${kpiNum}`);
+        const titleEl = document.getElementById(`kpi_title_${kpiNum}`);
+        const valEl = document.getElementById(`kpi_val_${kpiNum}`);
+
+        if (!colEl || !opEl || !titleEl || !valEl) return;
+
+        const col = colEl.value;
+        const op = opEl.value;
+        
+        let val = 0;
+        let title = '';
+
+        const numericVals = fullDataset.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
+
+        if (op === 'sum') {
+            val = numericVals.reduce((a, b) => a + b, 0);
+            title = `مجموع (${col})`;
+        } else if (op === 'avg') {
+            val = numericVals.length ? (numericVals.reduce((a, b) => a + b, 0) / numericVals.length) : 0;
+            title = `متوسط (${col})`;
+        } else if (op === 'max') {
+            val = numericVals.length ? Math.max(...numericVals) : 0;
+            title = `أعلى (${col})`;
+        } else if (op === 'min') {
+            val = numericVals.length ? Math.min(...numericVals) : 0;
+            title = `أدنى (${col})`;
+        } else if (op === 'count') {
+            const unique = new Set(fullDataset.map(r => r[col]));
+            val = unique.size;
+            title = `تكرار/فئات (${col})`;
+        }
+
+        titleEl.innerText = title;
+        valEl.innerText = (op === 'avg') ? Number(val.toFixed(2)).toLocaleString('ar-EG') : Number(val).toLocaleString('ar-EG');
+    }
+
+    function calculateAllKPIs() {
+        for (let i = 1; i <= 5; i++) calculateSingleKPI(i);
+    }
+
     function getCommonDataLabels(isCircular = false) {
         return {
             color: isCircular ? '#ffffff' : '#0f172a',
             anchor: isCircular ? 'center' : 'end',
             align: isCircular ? 'center' : 'top',
             offset: isCircular ? 0 : 6,
-            backgroundColor: isCircular ? 'rgba(0, 0, 0, 0.55)' : 'rgba(255, 255, 255, 0.95)',
+            backgroundColor: isCircular ? 'rgba(0, 0, 0, 0.45)' : 'rgba(255, 255, 255, 0.9)',
             borderRadius: 6,
-            padding: { top: 4, bottom: 4, left: 8, right: 8 },
+            padding: { top: 3, bottom: 3, left: 6, right: 6 },
             font: { family: 'Tajawal', weight: '800', size: 15 },
             formatter: function(value) {
                 return Number(value).toLocaleString('ar-EG');
@@ -705,19 +875,16 @@
         else if (chartNum === 5) chartType = 'polarArea';
 
         const grouped = {};
-        const numericValues = [];
 
         fullDataset.forEach(row => {
             const key = String(row[xCol] || 'غير محدد');
             const val = parseFloat(row[yCol]) || 0;
-            numericValues.push(val);
-
             if (!grouped[key]) grouped[key] = { sum: 0, count: 0 };
             grouped[key].sum += val;
             grouped[key].count += 1;
         });
 
-        const keys = Object.keys(grouped).slice(0, 10);
+        const keys = Object.keys(grouped).slice(0, 12);
         let dataPoints = [];
 
         if (agg === 'sum') {
@@ -726,23 +893,6 @@
             dataPoints = keys.map(k => Number((grouped[k].sum / grouped[k].count).toFixed(2)));
         } else if (agg === 'count') {
             dataPoints = keys.map(k => grouped[k].count);
-        }
-
-        if (chartNum === 1) {
-            const totalSum = numericValues.reduce((a, b) => a + b, 0);
-            const avgVal = numericValues.length ? (totalSum / numericValues.length) : 0;
-            const maxVal = numericValues.length ? Math.max(...numericValues) : 0;
-            const minVal = numericValues.length ? Math.min(...numericValues) : 0;
-            const totalCategories = Object.keys(grouped).length;
-
-            document.getElementById('chartKpiSum').innerText = totalSum.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiAvg').innerText = avgVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiMax').innerText = maxVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiMin').innerText = minVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-            document.getElementById('chartKpiCategories').innerText = totalCategories.toLocaleString('ar-EG');
-
-            document.getElementById('chartKpiSumTitle').innerText = `إجمالي (${yCol})`;
-            document.getElementById('chartKpiAvgTitle').innerText = `متوسط (${yCol})`;
         }
 
         const canvasId = `canvas_chart_${chartNum}`;
@@ -758,12 +908,12 @@
                 datasets: [{
                     label: `${yCol} (${agg === 'sum' ? 'مجموع' : agg === 'avg' ? 'متوسط' : 'تكرار'})`,
                     data: dataPoints,
-                    backgroundColor: chartType === 'line' ? 'rgba(124, 58, 237, 0.18)' : COLOR_PALETTE,
+                    backgroundColor: chartType === 'line' ? 'rgba(124, 58, 237, 0.15)' : COLOR_PALETTE,
                     borderColor: chartType === 'line' ? '#7c3aed' : undefined,
-                    borderWidth: chartType === 'line' ? 3.5 : 1.5,
+                    borderWidth: chartType === 'line' ? 3 : 1.5,
                     fill: chartType === 'line',
                     tension: 0.35,
-                    pointRadius: 7,
+                    pointRadius: 6,
                     pointBackgroundColor: '#7c3aed'
                 }]
             },
@@ -771,14 +921,10 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 layout: { padding: { top: isCircular ? 15 : 35 } },
-                scales: isCircular ? {} : {
-                    x: { ticks: { color: '#0f172a', font: { family: 'Tajawal', size: 14, weight: '700' } }, grid: { color: '#e2e8f0' } },
-                    y: { ticks: { color: '#0f172a', font: { family: 'Tajawal', size: 14, weight: '700' } }, grid: { color: '#e2e8f0' } }
-                },
                 plugins: {
                     legend: {
                         position: isCircular ? 'bottom' : 'top',
-                        labels: { font: { family: 'Tajawal', weight: '800', size: 15 }, color: '#0f172a', padding: 15 }
+                        labels: { font: { family: 'Tajawal', weight: 'bold', size: 12 } }
                     },
                     datalabels: getCommonDataLabels(isCircular)
                 }
@@ -790,7 +936,6 @@
         for (let i = 1; i <= 5; i++) {
             renderSingleChart(i);
         }
-        chartsInitialized = true;
     }
 
     function exportFilteredExcel() {
@@ -811,11 +956,11 @@
         document.getElementById(tabId).classList.add('active');
         
         if (tabId === 'chartsTab') {
-            if (!chartsInitialized) {
-                renderAllCharts();
-            } else {
-                Object.values(chartInstances).forEach(inst => { if (inst) inst.resize(); });
-            }
+            setTimeout(() => {
+                Object.values(chartInstances).forEach(inst => {
+                    if (inst) inst.resize();
+                });
+            }, 50);
         }
     }
 
