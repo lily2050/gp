@@ -78,7 +78,7 @@
         th:hover { background: #f1f5f9; }
         tr:hover td { background: #f8fafc; }
 
-        /* تنسيقات نوع بيانات الخلية */
+        /* Data Type Badges */
         .type-badge { font-size: 0.7rem; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; margin-right: 4px; font-weight: normal; }
         .cell-number, .cell-currency, .cell-percent { text-align: left; font-family: monospace, 'Tajawal'; font-weight: 600; }
         .cell-currency { color: #166534; }
@@ -93,7 +93,7 @@
 
         /* Dropdown menus */
         .dropdown { position: relative; }
-        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 280px; overflow-y: auto; z-index: 50; min-width: 250px; }
+        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 290px; overflow-y: auto; z-index: 50; min-width: 260px; }
         .dropdown-menu.show { display: block; }
         .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; cursor: pointer; }
         .type-config-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; gap: 8px; }
@@ -195,10 +195,10 @@
     <div class="card header">
         <div class="brand">
             <h1><i class="fa-solid fa-chart-pie"></i> لوحة بيانات وتحليلات Excel</h1>
-            <span>M_Lily </span>
+            <span>M_Lily للحلول والخدمات البرمجية المتكاملة</span>
             <div>
-                <span class="business-badge"><i class="fa-solid fa-laptop-code"></i>  بورفؤاد، بورسعيد </span>
-                <span class="business-badge" style="background:#fef3c7; color:#92400e;"><i class="fa-solid fa-phone"></i> 01060799600 </span>
+                <span class="business-badge"><i class="fa-solid fa-laptop-code"></i> استشاري كمبيوتر - بورفؤاد، بورسعيد [cite: 1]</span>
+                <span class="business-badge" style="background:#fef3c7; color:#92400e;"><i class="fa-solid fa-phone"></i> 01010678020 [cite: 1]</span>
             </div>
         </div>
         <div id="statusBadge" class="status status-loading">
@@ -230,9 +230,13 @@
                 <button class="btn btn-secondary" onclick="toggleTypesMenu(event)">
                     <i class="fa-solid fa-sliders"></i> نوع بيانات الأعمدة
                 </button>
-                <div id="typesMenu" class="dropdown-menu" style="min-width: 270px;">
-                    <div style="font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">تحديد نوع كل عمود:</div>
+                <div id="typesMenu" class="dropdown-menu">
+                    <div style="font-weight: bold; margin-bottom: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">تحديد نوع كل عمود:</div>
                     <div id="typesList"></div>
+                    <div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 8px; display: flex; gap: 4px;">
+                        <button class="btn" style="flex: 1; padding: 5px 8px; font-size: 0.78rem;" onclick="saveTypesAsDefault()">💾 حفظ كافتراضيات دائمة</button>
+                        <button class="btn btn-secondary" style="padding: 5px 8px; font-size: 0.78rem;" onclick="resetTypesToAuto()">🔄 استعادة التلقائي</button>
+                    </div>
                 </div>
             </div>
 
@@ -504,7 +508,7 @@
     </div>
 
     <div class="footer-credits">
-        M_Lily - | بورفؤاد - بورسعيد
+        M_Lily - استشاري كمبيوتر وتطوير البرمجيات | بورفؤاد - بورسعيد [cite: 1]
     </div>
 </div>
 
@@ -526,6 +530,7 @@
 
     const chartInstances = {};
     const DATA_URL = './data.xlsx';
+    const STORAGE_KEY = 'm_lily_column_types_defaults';
 
     const COLOR_PALETTE = [
         '#1b5e20', '#2563eb', '#d97706', '#dc2626', 
@@ -606,16 +611,25 @@
         loadSheetData(sheetName);
     }
 
-    // التعرف التلقائي الذكي على أنواع بيانات الأعمدة
+    // التعرف التلقائي مع استرجاع الافتراضيات الدائمة المحفوظة
     function detectColumnTypes() {
+        let savedDefaults = {};
+        try {
+            savedDefaults = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch (e) {}
+
         columnDataTypes = {};
         headers.forEach(h => {
+            if (savedDefaults[h]) {
+                columnDataTypes[h] = savedDefaults[h];
+                return;
+            }
+
             let isNum = false, isDate = false;
             for (let i = 0; i < Math.min(fullDataset.length, 25); i++) {
                 const val = fullDataset[i][h];
                 if (val === "" || val === null || val === undefined) continue;
                 
-                // كشف التاريخ النصي أو الرقمي
                 if (typeof val === 'string' && (val.includes('-') || val.includes('/')) && !isNaN(Date.parse(val))) {
                     isDate = true;
                     break;
@@ -654,7 +668,7 @@
         renderAllCharts();
     }
 
-    // دالة تنسيق التاريخ والبيانات الشاملة
+    // دالة تنسيق القيم ومراعاة أنواع التواريخ
     function formatCellValue(val, type) {
         if (val === "" || val === null || val === undefined) return "";
         
@@ -668,10 +682,8 @@
             const n = parseFloat(val);
             return !isNaN(n) ? (n > 1 ? n.toFixed(1) : (n * 100).toFixed(1)) + '%' : val;
         } else if (type === 'date') {
-            // معالجة تواريخ إكسل الرقمية (Excel Serial Number) أو النصوص
             let parsedDate = null;
             if (typeof val === 'number' && val > 20000 && val < 60000) {
-                // صيغة أرقام الأيام التسلسلية في الإكسل
                 parsedDate = new Date(Math.round((val - 25569) * 86400 * 1000));
             } else {
                 parsedDate = new Date(val);
@@ -861,6 +873,24 @@
     function updateColType(col, type) {
         columnDataTypes[col] = type;
         renderTable();
+    }
+
+    // حفظ واسترجاع الافتراضيات الدائمة
+    function saveTypesAsDefault() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(columnDataTypes));
+            alert('تم حفظ الأنواع الحالية كافتراضيات دائمة بنجاح.');
+        } catch (e) {
+            alert('تعذر الحفظ في المتصفح.');
+        }
+    }
+
+    function resetTypesToAuto() {
+        localStorage.removeItem(STORAGE_KEY);
+        detectColumnTypes();
+        buildTypesMenu();
+        renderTable();
+        alert('تمت استعادة الإعدادات التلقائية الافتراضية.');
     }
 
     function toggleColMenu(e) {
