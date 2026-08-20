@@ -567,25 +567,29 @@
     }
 
     function loadSheetData(sheetName) {
-        const sheet = rawWorkbook.Sheets[sheetName];
-        fullDataset = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+        try {
+            const sheet = rawWorkbook.Sheets[sheetName];
+            fullDataset = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
-        if (fullDataset.length === 0) {
-            document.getElementById('tableContainer').innerHTML = '<p style="text-align: center; padding: 20px;">الورقة المحددة لا تحتوي على بيانات.</p>';
-            return;
+            if (fullDataset.length === 0) {
+                document.getElementById('tableContainer').innerHTML = '<p style="text-align: center; padding: 20px;">الورقة المحددة لا تحتوي على بيانات.</p>';
+                return;
+            }
+
+            headers = Object.keys(fullDataset[0]);
+            activeHeaders = new Set(headers);
+            filteredDataset = [...fullDataset];
+            currentPage = 1;
+
+            buildColumnMenu();
+            populateAllChartSelectors();
+            populateAllKPISelectors();
+            renderTable();
+            calculateAllKPIs();
+            renderAllCharts();
+        } catch (e) {
+            console.error("Error loading sheet data:", e);
         }
-
-        headers = Object.keys(fullDataset[0]);
-        activeHeaders = new Set(headers);
-        filteredDataset = [...fullDataset];
-        currentPage = 1;
-
-        buildColumnMenu();
-        populateAllChartSelectors();
-        populateAllKPISelectors();
-        renderTable();
-        calculateAllKPIs();
-        renderAllCharts();
     }
 
     function renderTable() {
@@ -771,7 +775,10 @@
         if (!fullDataset.length) return;
         const colEl = document.getElementById(`kpi_col_${kpiNum}`);
         const opEl = document.getElementById(`kpi_op_${kpiNum}`);
-        if (!colEl || !opEl) return;
+        const titleEl = document.getElementById(`kpi_title_${kpiNum}`);
+        const valEl = document.getElementById(`kpi_val_${kpiNum}`);
+
+        if (!colEl || !opEl || !titleEl || !valEl) return;
 
         const col = colEl.value;
         const op = opEl.value;
@@ -782,4 +789,172 @@
         const numericVals = fullDataset.map(r => parseFloat(r[col])).filter(v => !isNaN(v));
 
         if (op === 'sum') {
-            val = numericVals.reduce((a, b) =>
+            val = numericVals.reduce((a, b) => a + b, 0);
+            title = `مجموع (${col})`;
+        } else if (op === 'avg') {
+            val = numericVals.length ? (numericVals.reduce((a, b) => a + b, 0) / numericVals.length) : 0;
+            title = `متوسط (${col})`;
+        } else if (op === 'max') {
+            val = numericVals.length ? Math.max(...numericVals) : 0;
+            title = `أعلى (${col})`;
+        } else if (op === 'min') {
+            val = numericVals.length ? Math.min(...numericVals) : 0;
+            title = `أدنى (${col})`;
+        } else if (op === 'count') {
+            const unique = new Set(fullDataset.map(r => r[col]));
+            val = unique.size;
+            title = `تكرار/فئات (${col})`;
+        }
+
+        titleEl.innerText = title;
+        valEl.innerText = (op === 'avg') ? Number(val.toFixed(2)).toLocaleString('ar-EG') : Number(val).toLocaleString('ar-EG');
+    }
+
+    function calculateAllKPIs() {
+        for (let i = 1; i <= 5; i++) calculateSingleKPI(i);
+    }
+
+    function getCommonDataLabels(isCircular = false) {
+        return {
+            color: isCircular ? '#ffffff' : '#0f172a',
+            anchor: isCircular ? 'center' : 'end',
+            align: isCircular ? 'center' : 'top',
+            offset: isCircular ? 0 : 6,
+            backgroundColor: isCircular ? 'rgba(0, 0, 0, 0.45)' : 'rgba(255, 255, 255, 0.9)',
+            borderRadius: 6,
+            padding: { top: 3, bottom: 3, left: 6, right: 6 },
+            font: { family: 'Tajawal', weight: '800', size: 15 },
+            formatter: function(value) {
+                return Number(value).toLocaleString('ar-EG');
+            }
+        };
+    }
+
+    function renderSingleChart(chartNum) {
+        try {
+            if (!fullDataset || fullDataset.length === 0) return;
+
+            const xColEl = document.getElementById(`c${chartNum}_x`);
+            const yColEl = document.getElementById(`c${chartNum}_y`);
+            const aggEl = document.getElementById(`c${chartNum}_agg`);
+            if (!xColEl || !yColEl || !aggEl) return;
+
+            const xCol = xColEl.value;
+            const yCol = yColEl.value;
+            const agg = aggEl.value;
+            
+            let chartType = 'bar';
+            if (chartNum === 1) chartType = document.getElementById('c1_type').value;
+            else if (chartNum === 2) chartType = 'bar';
+            else if (chartNum === 3) chartType = document.getElementById('c3_type').value;
+            else if (chartNum === 4) chartType = 'line';
+            else if (chartNum === 5) chartType = 'polarArea';
+
+            const grouped = {};
+
+            fullDataset.forEach(row => {
+                const key = String(row[xCol] || 'غير محدد');
+                const val = parseFloat(row[yCol]) || 0;
+                if (!grouped[key]) grouped[key] = { sum: 0, count: 0 };
+                grouped[key].sum += val;
+                grouped[key].count += 1;
+            });
+
+            const keys = Object.keys(grouped).slice(0, 12);
+            let dataPoints = [];
+
+            if (agg === 'sum') {
+                dataPoints = keys.map(k => grouped[k].sum);
+            } else if (agg === 'avg') {
+                dataPoints = keys.map(k => Number((grouped[k].sum / grouped[k].count).toFixed(2)));
+            } else if (agg === 'count') {
+                dataPoints = keys.map(k => grouped[k].count);
+            }
+
+            const canvasId = `canvas_chart_${chartNum}`;
+            const canvasEl = document.getElementById(canvasId);
+            if (!canvasEl) return;
+
+            if (chartInstances[chartNum]) chartInstances[chartNum].destroy();
+
+            const ctx = canvasEl.getContext('2d');
+            const isCircular = ['pie', 'doughnut', 'polarArea'].includes(chartType);
+
+            chartInstances[chartNum] = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: keys,
+                    datasets: [{
+                        label: `${yCol} (${agg === 'sum' ? 'مجموع' : agg === 'avg' ? 'متوسط' : 'تكرار'})`,
+                        data: dataPoints,
+                        backgroundColor: chartType === 'line' ? 'rgba(124, 58, 237, 0.15)' : COLOR_PALETTE,
+                        borderColor: chartType === 'line' ? '#7c3aed' : undefined,
+                        borderWidth: chartType === 'line' ? 3 : 1.5,
+                        fill: chartType === 'line',
+                        tension: 0.35,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#7c3aed'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { top: isCircular ? 15 : 35 } },
+                    plugins: {
+                        legend: {
+                            position: isCircular ? 'bottom' : 'top',
+                            labels: { font: { family: 'Tajawal', weight: 'bold', size: 12 } }
+                        },
+                        datalabels: getCommonDataLabels(isCircular)
+                    }
+                }
+            });
+        } catch (err) {
+            console.error(`Error rendering chart ${chartNum}:`, err);
+        }
+    }
+
+    function renderAllCharts() {
+        for (let i = 1; i <= 5; i++) {
+            renderSingleChart(i);
+        }
+    }
+
+    function exportFilteredExcel() {
+        if (filteredDataset.length === 0) {
+            alert('لا توجد بيانات لتصديرها.');
+            return;
+        }
+        const ws = XLSX.utils.json_to_sheet(filteredDataset);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "البيانات");
+        XLSX.writeFile(wb, `M_Lily_Export_${Date.now()}.xlsx`);
+    }
+
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+        
+        if (tabId === 'chartsTab') {
+            setTimeout(() => {
+                Object.values(chartInstances).forEach(inst => {
+                    if (inst) inst.resize();
+                });
+            }, 50);
+        }
+    }
+
+    function updateBadge(state, text) {
+        const b = document.getElementById('statusBadge');
+        b.className = `status status-${state}`;
+        let icon = state === 'loading' ? '<i class="fa-solid fa-spinner fa-spin"></i>' : 
+                   state === 'success' ? '<i class="fa-solid fa-circle-check"></i>' : 
+                   '<i class="fa-solid fa-circle-xmark"></i>';
+        b.innerHTML = `${icon} ${text}`;
+    }
+</script>
+
+</body>
+</html>
