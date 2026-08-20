@@ -1,8 +1,16 @@
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M_Lily | لوحة تحليلات وإدارة بيانات Excel</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 
     <style>
         :root {
@@ -81,7 +89,7 @@
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .chart-box { position: relative; width: 100%; min-height: 420px; }
+        .chart-box { position: relative; width: 100%; min-height: 440px; }
 
         @media (max-width: 768px) {
             .controls-bar { flex-direction: column; align-items: stretch; }
@@ -238,6 +246,9 @@
 </div>
 
 <script>
+    // تسجيل إضافة الأرقام على الرسوم
+    Chart.register(ChartDataLabels);
+
     let rawWorkbook = null;
     let fullDataset = [];
     let filteredDataset = [];
@@ -501,7 +512,7 @@
         if (headers.length > 1) ySel.selectedIndex = 1;
     }
 
-    // رسم وتحديث الرسوم البيانية وحساب الكروت الـ 5
+    // رسم الرسوم البيانية مع إظهار الأرقام المباشرة
     function renderChart() {
         if (!fullDataset || fullDataset.length === 0) return;
 
@@ -534,7 +545,7 @@
             dataPoints = keys.map(k => grouped[k].count);
         }
 
-        // حساب قيم الكروت الإحصائية الـ 5
+        // تحديث الكروت الـ 5
         const totalSum = numericValues.reduce((a, b) => a + b, 0);
         const avgVal = numericValues.length ? (totalSum / numericValues.length) : 0;
         const maxVal = numericValues.length ? Math.max(...numericValues) : 0;
@@ -553,6 +564,8 @@
         if (myChart) myChart.destroy();
 
         const ctx = document.getElementById('analyticsChart').getContext('2d');
+        const isCircular = ['pie', 'doughnut', 'polarArea'].includes(chartType);
+
         myChart = new Chart(ctx, {
             type: chartType,
             data: {
@@ -564,16 +577,34 @@
                         '#1b5e20', '#2563eb', '#d97706', '#dc2626', 
                         '#7c3aed', '#0891b2', '#ca8a04', '#059669', '#e11d48'
                     ],
-                    borderWidth: 1
+                    borderWidth: 1.5
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: {
+                    padding: { top: isCircular ? 10 : 25 }
+                },
                 plugins: {
                     legend: {
-                        position: ['pie', 'doughnut', 'polarArea'].includes(chartType) ? 'bottom' : 'top',
-                        labels: { font: { family: 'Tajawal' } }
+                        position: isCircular ? 'bottom' : 'top',
+                        labels: { font: { family: 'Tajawal', weight: 'bold' } }
+                    },
+                    // إعدادات إظهار الأرقام
+                    datalabels: {
+                        color: isCircular ? '#ffffff' : '#1e293b',
+                        anchor: isCircular ? 'center' : 'end',
+                        align: isCircular ? 'center' : 'top',
+                        offset: isCircular ? 0 : 4,
+                        font: {
+                            family: 'Tajawal',
+                            weight: 'bold',
+                            size: 11
+                        },
+                        formatter: function(value) {
+                            return Number(value).toLocaleString('ar-EG');
+                        }
                     }
                 }
             }
