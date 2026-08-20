@@ -20,72 +20,72 @@
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text-muted: #475569;
+            --border: #cbd5e1;
             --radius: 12px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
         body { background-color: var(--bg); color: var(--text-main); padding: 20px 15px; direction: rtl; }
-        .container { max-width: 1300px; margin: auto; }
+        .container { max-width: 1400px; margin: auto; }
 
         .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); }
         
         .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .brand h1 { font-size: 1.5rem; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        .brand span { font-size: 0.85rem; color: var(--text-muted); }
+        .brand h1 { font-size: 1.6rem; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .brand span { font-size: 0.95rem; color: var(--text-muted); font-weight: 600; }
 
-        .status { padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; }
+        .status { padding: 6px 16px; border-radius: 30px; font-size: 0.9rem; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; }
         .status-loading { background: #fef3c7; color: #92400e; }
         .status-success { background: #dcfce7; color: #166534; }
         .status-error { background: #fee2e2; color: #991b1b; }
 
         /* KPI Stats Cards */
-        .stats-grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 12px; }
-        .stat-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-        .stat-info h3 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 3px; }
-        .stat-info p { font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
+        .stats-grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
+        .stat-card { background: var(--card-bg); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px; display: flex; align-items: center; gap: 14px; }
+        .stat-icon { width: 50px; height: 50px; border-radius: 10px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+        .stat-info h3 { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 4px; font-weight: 700; }
+        .stat-info p { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
 
         /* Tabs */
         .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-        .tab-btn { padding: 10px 22px; border: none; background: transparent; border-radius: 8px; cursor: pointer; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .tab-btn { padding: 12px 24px; border: none; background: transparent; border-radius: 8px; cursor: pointer; font-size: 1.05rem; font-weight: 800; color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 8px; }
         .tab-btn:hover { background: #f1f5f9; color: var(--text-main); }
         .tab-btn.active { background: var(--primary-soft); color: var(--primary); }
 
         /* Controls */
         .controls-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
         .controls-left, .controls-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        input[type="text"], select { padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; outline: none; transition: 0.2s; }
+        input[type="text"], select { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.95rem; font-weight: 600; outline: none; transition: 0.2s; }
         input[type="text"]:focus, select:focus { border-color: var(--primary); }
 
-        .btn { padding: 9px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .btn { padding: 10px 18px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .btn:hover { background: var(--primary-light); }
-        .btn-outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
+        .btn-outline { background: white; color: var(--primary); border: 1.5px solid var(--primary); }
         .btn-outline:hover { background: var(--primary-soft); }
-        .btn-secondary { background: #f1f5f9; color: var(--text-main); border: 1px solid var(--border); }
+        .btn-secondary { background: #f1f5f9; color: var(--text-main); border: 1.5px solid var(--border); }
         .btn-secondary:hover { background: #e2e8f0; }
 
         /* Table */
         .table-wrap { overflow-x: auto; max-height: 550px; border-radius: 8px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; text-align: right; }
-        th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; white-space: nowrap; }
-        th { background: #f8fafc; font-weight: 700; color: #334155; position: sticky; top: 0; z-index: 10; cursor: pointer; user-select: none; }
+        th, td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 0.95rem; white-space: nowrap; }
+        th { background: #f8fafc; font-weight: 800; color: #1e293b; position: sticky; top: 0; z-index: 10; cursor: pointer; user-select: none; }
         th:hover { background: #f1f5f9; }
         tr:hover td { background: #f8fafc; }
 
         /* Pagination */
         .table-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
         .pagination { display: flex; align-items: center; gap: 6px; }
-        .page-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 6px; background: white; cursor: pointer; font-size: 0.85rem; }
+        .page-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); border-radius: 6px; background: white; cursor: pointer; font-size: 0.95rem; font-weight: 700; }
         .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         /* Dropdown columns menu */
         .dropdown { position: relative; }
-        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1px solid var(--border); padding: 12px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 260px; overflow-y: auto; z-index: 50; min-width: 210px; }
+        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: white; border: 1.5px solid var(--border); padding: 14px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-height: 280px; overflow-y: auto; z-index: 50; min-width: 230px; }
         .dropdown-menu.show { display: block; }
-        .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; cursor: pointer; }
+        .dropdown-menu label { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -94,7 +94,7 @@
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 24px;
         }
 
         .chart-card-full {
@@ -103,39 +103,63 @@
 
         .chart-box-card {
             background: #ffffff;
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: var(--radius);
-            padding: 18px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
         }
 
+        /* تكبير النص التوضيحي وعناوين الكروت */
         .chart-box-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
         }
 
         .chart-box-header h4 {
-            font-size: 1rem;
-            color: #1e293b;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
+        .chart-controls-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .chart-controls-inline label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #334155;
+        }
+
         .chart-box {
             position: relative;
             width: 100%;
-            min-height: 380px;
+            min-height: 400px;
             flex: 1;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 950px) {
             .charts-grid {
                 grid-template-columns: 1fr;
             }
@@ -165,7 +189,7 @@
             <i class="fa-solid fa-table-list"></i> جدول البيانات المتقدم
         </button>
         <button class="tab-btn" onclick="switchTab('chartsTab', this)">
-            <i class="fa-solid fa-chart-column"></i> التحليلات والرسوم البيانية (5)
+            <i class="fa-solid fa-chart-column"></i> التحليلات والرسوم البيانية المخصصة (5)
         </button>
     </div>
 
@@ -175,7 +199,7 @@
             
             <div class="dropdown">
                 <button class="btn btn-secondary" onclick="toggleColMenu(event)">
-                    <i class="fa-solid fa-eye"></i> تخصيص الأعمدة
+                    <i class="fa-solid fa-eye"></i> تخصيص أعمدة الجدول
                 </button>
                 <div id="colMenu" class="dropdown-menu"></div>
             </div>
@@ -203,17 +227,17 @@
 
     <div id="tableTab" class="card tab-content active">
         <div class="table-wrap" id="tableContainer">
-            <p style="text-align: center; padding: 30px; color: var(--text-muted);">جاري تجهيز الجدول...</p>
+            <p style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 1.1rem;">جاري تجهيز الجدول...</p>
         </div>
         
         <div class="table-footer">
-            <div style="font-size: 0.85rem; color: var(--text-muted);">
+            <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-muted);">
                 عرض <span id="showingCount">0</span> من إجمالي <span id="totalFilterCount">0</span> صف
             </div>
             
             <div style="display: flex; align-items: center; gap: 10px;">
-                <label style="font-size: 0.85rem; color: var(--text-muted);">الصفوف بالصفحة:
-                    <select id="pageSizeSelect" onchange="changePageSize(this.value)" style="padding: 4px 8px;">
+                <label style="font-size: 0.95rem; font-weight: 700; color: var(--text-muted);">الصفوف بالصفحة:
+                    <select id="pageSizeSelect" onchange="changePageSize(this.value)" style="padding: 5px 10px;">
                         <option value="10">10</option>
                         <option value="25" selected>25</option>
                         <option value="50">50</option>
@@ -230,14 +254,14 @@
             <div class="stat-card">
                 <div class="stat-icon"><i class="fa-solid fa-calculator"></i></div>
                 <div class="stat-info">
-                    <h3 id="chartKpiSumTitle">إجمالي القيم</h3>
+                    <h3 id="chartKpiSumTitle">إجمالي القيم (الرسم 1)</h3>
                     <p id="chartKpiSum">0</p>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
                 <div class="stat-info">
-                    <h3 id="chartKpiAvgTitle">المتوسط الحسابي</h3>
+                    <h3 id="chartKpiAvgTitle">المتوسط الحسابي (الرسم 1)</h3>
                     <p id="chartKpiAvg">0</p>
                 </div>
             </div>
@@ -264,587 +288,121 @@
             </div>
         </div>
 
-        <div class="controls-bar" style="margin-bottom: 20px; background: #f8fafc; padding: 12px; border-radius: 8px;">
-            <div class="controls-left">
-                <label>محور التصنيف (X): <select id="chartXCol" onchange="renderAllCharts()"></select></label>
-                <label>محور القيم (Y): <select id="chartYCol" onchange="renderAllCharts()"></select></label>
-                <label>نوع التجميع: 
-                    <select id="aggType" onchange="renderAllCharts()">
-                        <option value="sum">مجموع القيم (Sum)</option>
-                        <option value="avg">متوسط القيم (Average)</option>
-                        <option value="count">عدد التكرار (Count)</option>
-                    </select>
-                </label>
-            </div>
-            <div class="controls-right">
-                <label>نوع الرسم الرئيسي: 
-                    <select id="chartType" onchange="renderAllCharts()">
-                        <option value="bar">أعمدة (Bar)</option>
-                        <option value="line">خطي (Line)</option>
-                        <option value="pie">دائري (Pie)</option>
-                        <option value="doughnut">حلقي (Doughnut)</option>
-                        <option value="polarArea">قطبي (Polar Area)</option>
-                    </select>
-                </label>
-            </div>
-        </div>
-
         <div class="charts-grid">
             <div class="chart-box-card chart-card-full">
                 <div class="chart-box-header">
-                    <h4 id="mainChartTitle"><i class="fa-solid fa-chart-column" style="color: var(--primary);"></i> 1. الرسم البياني المخصص الأساسي</h4>
-                    <small style="color: var(--text-muted);">حسب اختياراتك بالأعلى</small>
+                    <h4><i class="fa-solid fa-sliders" style="color: var(--primary);"></i> 1. الرسم البياني التفاعلي الشامل</h4>
+                </div>
+                <div class="chart-controls-inline">
+                    <label>نوع الرسم:
+                        <select id="c1_type" onchange="renderSingleChart(1)">
+                            <option value="bar">أعمدة (Bar)</option>
+                            <option value="line">خطي (Line)</option>
+                            <option value="pie">دائري (Pie)</option>
+                            <option value="doughnut">حلقي (Doughnut)</option>
+                            <option value="polarArea">قطبي (Polar)</option>
+                        </select>
+                    </label>
+                    <label>المحور الأفقي (X): <select id="c1_x" onchange="renderSingleChart(1)"></select></label>
+                    <label>المحور الرأسي (Y): <select id="c1_y" onchange="renderSingleChart(1)"></select></label>
+                    <label>طريقة الحساب:
+                        <select id="c1_agg" onchange="renderSingleChart(1)">
+                            <option value="sum">مجموع (Sum)</option>
+                            <option value="avg">متوسط (Avg)</option>
+                            <option value="count">تكرار (Count)</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="chart-box">
-                    <canvas id="chartMain"></canvas>
+                    <canvas id="canvas_chart_1"></canvas>
                 </div>
             </div>
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-chart-pie" style="color: #2563eb;"></i> 2. توزيع الحصص والنسب (Doughnut)</h4>
+                    <h4><i class="fa-solid fa-chart-bar" style="color: #2563eb;"></i> 2. رسم مقارنة الأعمدة (Bar)</h4>
+                </div>
+                <div class="chart-controls-inline">
+                    <label>محور (X): <select id="c2_x" onchange="renderSingleChart(2)"></select></label>
+                    <label>محور (Y): <select id="c2_y" onchange="renderSingleChart(2)"></select></label>
+                    <label>طريقة الحساب:
+                        <select id="c2_agg" onchange="renderSingleChart(2)">
+                            <option value="sum">مجموع</option>
+                            <option value="avg">متوسط</option>
+                            <option value="count">تكرار</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="chart-box">
-                    <canvas id="chartDoughnut"></canvas>
+                    <canvas id="canvas_chart_2"></canvas>
                 </div>
             </div>
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-arrow-trend-up" style="color: #d97706;"></i> 3. اتجاه ومسار القيم (Trend Line)</h4>
+                    <h4><i class="fa-solid fa-chart-pie" style="color: #d97706;"></i> 3. توزيع النسب والحصص</h4>
+                </div>
+                <div class="chart-controls-inline">
+                    <label>النوع:
+                        <select id="c3_type" onchange="renderSingleChart(3)">
+                            <option value="doughnut">حلقي (Doughnut)</option>
+                            <option value="pie">دائري (Pie)</option>
+                        </select>
+                    </label>
+                    <label>محور (X): <select id="c3_x" onchange="renderSingleChart(3)"></select></label>
+                    <label>محور (Y): <select id="c3_y" onchange="renderSingleChart(3)"></select></label>
+                    <label>طريقة الحساب:
+                        <select id="c3_agg" onchange="renderSingleChart(3)">
+                            <option value="sum">مجموع</option>
+                            <option value="avg">متوسط</option>
+                            <option value="count">تكرار</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="chart-box">
-                    <canvas id="chartTrend"></canvas>
+                    <canvas id="canvas_chart_3"></canvas>
                 </div>
             </div>
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-list-ol" style="color: #7c3aed;"></i> 4. تكرار السجلات لكل فئة (Count / Frequency)</h4>
+                    <h4><i class="fa-solid fa-arrow-trend-up" style="color: #7c3aed;"></i> 4. مسار واتجاه التطور (Line)</h4>
+                </div>
+                <div class="chart-controls-inline">
+                    <label>محور (X): <select id="c4_x" onchange="renderSingleChart(4)"></select></label>
+                    <label>محور (Y): <select id="c4_y" onchange="renderSingleChart(4)"></select></label>
+                    <label>طريقة الحساب:
+                        <select id="c4_agg" onchange="renderSingleChart(4)">
+                            <option value="sum">مجموع</option>
+                            <option value="avg">متوسط</option>
+                            <option value="count">تكرار</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="chart-box">
-                    <canvas id="chartCount"></canvas>
+                    <canvas id="canvas_chart_4"></canvas>
                 </div>
             </div>
 
             <div class="chart-box-card">
                 <div class="chart-box-header">
-                    <h4><i class="fa-solid fa-compass" style="color: #0891b2;"></i> 5. التوزيع القطبي والنسبي (Polar Area)</h4>
+                    <h4><i class="fa-solid fa-compass" style="color: #0891b2;"></i> 5. التوزيع النسبي القطبي (Polar Area)</h4>
+                </div>
+                <div class="chart-controls-inline">
+                    <label>محور (X): <select id="c5_x" onchange="renderSingleChart(5)"></select></label>
+                    <label>محور (Y): <select id="c5_y" onchange="renderSingleChart(5)"></select></label>
+                    <label>طريقة الحساب:
+                        <select id="c5_agg" onchange="renderSingleChart(5)">
+                            <option value="sum">مجموع</option>
+                            <option value="avg">متوسط</option>
+                            <option value="count">تكرار</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="chart-box">
-                    <canvas id="chartPolar"></canvas>
+                    <canvas id="canvas_chart_5"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    Chart.register(ChartDataLabels);
-
-    let rawWorkbook = null;
-    let fullDataset = [];
-    let filteredDataset = [];
-    let headers = [];
-    let activeHeaders = new Set();
-    
-    let currentPage = 1;
-    let rowsPerPage = 25;
-    let sortColumn = null;
-    let sortAsc = true;
-
-    // مصفوفة للاحتفاظ بالمخططات الـ 5 لإعادة بنائها وتحديثها
-    let chartInstances = {
-        main: null,
-        doughnut: null,
-        trend: null,
-        count: null,
-        polar: null
-    };
-
-    const DATA_URL = './data.xlsx';
-
-    const COLOR_PALETTE = [
-        '#1b5e20', '#2563eb', '#d97706', '#dc2626', 
-        '#7c3aed', '#0891b2', '#ca8a04', '#059669', 
-        '#e11d48', '#475569', '#4f46e5', '#0d9488'
-    ];
-
-    window.addEventListener('DOMContentLoaded', () => {
-        loadExcelData();
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('#colMenu') && !e.target.closest('.btn-secondary')) {
-                document.getElementById('colMenu').classList.remove('show');
-            }
-        });
-    });
-
-    async function loadExcelData() {
-        updateBadge('loading', 'جاري جلب data.xlsx...');
-        try {
-            const res = await fetch(DATA_URL + '?nocache=' + Date.now());
-            if (!res.ok) throw new Error('الملف غير متوفر');
-            const buff = await res.arrayBuffer();
-            processWorkbook(buff);
-            updateBadge('success', 'تم تحميل data.xlsx بنجاح');
-        } catch (err) {
-            updateBadge('error', 'تعذر تحميل data.xlsx تلقائياً');
-            document.getElementById('tableContainer').innerHTML = `
-                <div style="text-align: center; padding: 40px;">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: #dc2626; margin-bottom: 12px;"></i>
-                    <p style="font-weight: 700; color: #991b1b;">لم يتم العثور على data.xlsx في المستودع</p>
-                    <p style="color: #64748b; font-size: 0.9rem; margin-top: 6px;">تأكد من رفع الملف باسم <b>data.xlsx</b> أو استخدم زر "ملف محلي" لفتحه مباشرة.</p>
-                </div>`;
-        }
-    }
-
-    function handleLocalFile(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-            processWorkbook(evt.target.result);
-            updateBadge('success', `تم فتح: ${file.name}`);
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    function processWorkbook(buffer) {
-        try {
-            rawWorkbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
-            setupSheetSelector();
-            loadSheetData(rawWorkbook.SheetNames[0]);
-        } catch (err) {
-            alert('حدث خطأ في معالجة بنية ملف الإكسل.');
-        }
-    }
-
-    function setupSheetSelector() {
-        const sel = document.getElementById('sheetSelector');
-        sel.innerHTML = '';
-        if (rawWorkbook.SheetNames.length > 1) {
-            sel.style.display = 'inline-block';
-            rawWorkbook.SheetNames.forEach(sheet => {
-                const opt = document.createElement('option');
-                opt.value = sheet;
-                opt.textContent = `ورقة: ${sheet}`;
-                sel.appendChild(opt);
-            });
-        } else {
-            sel.style.display = 'none';
-        }
-    }
-
-    function switchSheet() {
-        const sheetName = document.getElementById('sheetSelector').value;
-        loadSheetData(sheetName);
-    }
-
-    function loadSheetData(sheetName) {
-        const sheet = rawWorkbook.Sheets[sheetName];
-        fullDataset = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-
-        if (fullDataset.length === 0) {
-            document.getElementById('tableContainer').innerHTML = '<p style="text-align: center; padding: 20px;">الورقة المحددة لا تحتوي على بيانات.</p>';
-            return;
-        }
-
-        headers = Object.keys(fullDataset[0]);
-        activeHeaders = new Set(headers);
-        filteredDataset = [...fullDataset];
-        currentPage = 1;
-
-        buildColumnMenu();
-        populateChartControls();
-        renderTable();
-        renderAllCharts();
-    }
-
-    function renderTable() {
-        const visibleCols = headers.filter(h => activeHeaders.has(h));
-        
-        if (sortColumn) {
-            filteredDataset.sort((a, b) => {
-                let valA = a[sortColumn] !== undefined ? a[sortColumn] : "";
-                let valB = b[sortColumn] !== undefined ? b[sortColumn] : "";
-                
-                let numA = parseFloat(valA);
-                let numB = parseFloat(valB);
-                if (!isNaN(numA) && !isNaN(numB)) {
-                    return sortAsc ? numA - numB : numB - numA;
-                }
-                return sortAsc ? String(valA).localeCompare(String(valB), 'ar') : String(valB).localeCompare(String(valA), 'ar');
-            });
-        }
-
-        const start = (currentPage - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const pageData = filteredDataset.slice(start, end);
-
-        let html = '<table><thead><tr>';
-        html += '<th style="width: 45px; text-align: center;">#</th>';
-        visibleCols.forEach(col => {
-            let sortIcon = '<i class="fa-solid fa-sort" style="opacity: 0.3; margin-right: 4px;"></i>';
-            if (sortColumn === col) {
-                sortIcon = sortAsc ? '<i class="fa-solid fa-arrow-up-short-wide" style="color: var(--primary); margin-right: 4px;"></i>' : '<i class="fa-solid fa-arrow-down-wide-short" style="color: var(--primary); margin-right: 4px;"></i>';
-            }
-            html += `<th onclick="sortTable('${col}')">${col} ${sortIcon}</th>`;
-        });
-        html += '</tr></thead><tbody>';
-
-        if (pageData.length === 0) {
-            html += `<tr><td colspan="${visibleCols.length + 1}" style="text-align: center; padding: 20px; color: var(--text-muted);">لا توجد نتائج مطابقة للبحث</td></tr>`;
-        } else {
-            pageData.forEach((row, idx) => {
-                html += '<tr>';
-                html += `<td style="text-align: center; color: #94a3b8; font-weight: bold;">${start + idx + 1}</td>`;
-                visibleCols.forEach(col => {
-                    html += `<td>${row[col] !== undefined ? row[col] : ''}</td>`;
-                });
-                html += '</tr>';
-            });
-        }
-
-        html += '</tbody></table>';
-        document.getElementById('tableContainer').innerHTML = html;
-        
-        document.getElementById('showingCount').innerText = pageData.length;
-        document.getElementById('totalFilterCount').innerText = filteredDataset.length;
-
-        renderPaginationControls();
-    }
-
-    function sortTable(col) {
-        if (sortColumn === col) {
-            sortAsc = !sortAsc;
-        } else {
-            sortColumn = col;
-            sortAsc = true;
-        }
-        renderTable();
-    }
-
-    function handleSearch() {
-        const query = document.getElementById('searchBox').value.trim().toLowerCase();
-        if (!query) {
-            filteredDataset = [...fullDataset];
-        } else {
-            filteredDataset = fullDataset.filter(row =>
-                Object.values(row).some(val => String(val).toLowerCase().includes(query))
-            );
-        }
-        currentPage = 1;
-        renderTable();
-    }
-
-    function renderPaginationControls() {
-        const totalPages = Math.ceil(filteredDataset.length / rowsPerPage) || 1;
-        const container = document.getElementById('paginationControls');
-        container.innerHTML = '';
-
-        const prev = document.createElement('button');
-        prev.className = 'page-btn';
-        prev.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
-        prev.disabled = currentPage === 1;
-        prev.onclick = () => { currentPage--; renderTable(); };
-        container.appendChild(prev);
-
-        let startPage = Math.max(1, currentPage - 2);
-        let endPage = Math.min(totalPages, startPage + 4);
-
-        for (let i = startPage; i <= endPage; i++) {
-            const btn = document.createElement('button');
-            btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
-            btn.innerText = i;
-            btn.onclick = () => { currentPage = i; renderTable(); };
-            container.appendChild(btn);
-        }
-
-        const next = document.createElement('button');
-        next.className = 'page-btn';
-        next.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
-        next.disabled = currentPage === totalPages;
-        next.onclick = () => { currentPage++; renderTable(); };
-        container.appendChild(next);
-    }
-
-    function changePageSize(size) {
-        rowsPerPage = parseInt(size);
-        currentPage = 1;
-        renderTable();
-    }
-
-    function buildColumnMenu() {
-        const menu = document.getElementById('colMenu');
-        menu.innerHTML = '';
-        headers.forEach(h => {
-            const label = document.createElement('label');
-            label.innerHTML = `<input type="checkbox" ${activeHeaders.has(h) ? 'checked' : ''} onchange="toggleSingleColumn('${h}', this.checked)"> ${h}`;
-            menu.appendChild(label);
-        });
-    }
-
-    function toggleColMenu(e) {
-        e.stopPropagation();
-        document.getElementById('colMenu').classList.toggle('show');
-    }
-
-    function toggleSingleColumn(col, isChecked) {
-        if (isChecked) {
-            activeHeaders.add(col);
-        } else {
-            if (activeHeaders.size > 1) {
-                activeHeaders.delete(col);
-            } else {
-                alert('يجب الإبقاء على عمود واحد على الأقل.');
-                buildColumnMenu();
-                return;
-            }
-        }
-        renderTable();
-    }
-
-    function populateChartControls() {
-        const xSel = document.getElementById('chartXCol');
-        const ySel = document.getElementById('chartYCol');
-        xSel.innerHTML = '';
-        ySel.innerHTML = '';
-
-        headers.forEach((h) => {
-            xSel.innerHTML += `<option value="${h}">${h}</option>`;
-            ySel.innerHTML += `<option value="${h}">${h}</option>`;
-        });
-
-        if (headers.length > 1) ySel.selectedIndex = 1;
-    }
-
-    // إعدادات مشتركة لنمط الأرقام الواضحة والخط الكبير 15px
-    function getCommonDataLabels(isCircular = false) {
-        return {
-            color: isCircular ? '#ffffff' : '#0f172a',
-            anchor: isCircular ? 'center' : 'end',
-            align: isCircular ? 'center' : 'top',
-            offset: isCircular ? 0 : 6,
-            backgroundColor: isCircular ? 'rgba(0, 0, 0, 0.45)' : 'rgba(255, 255, 255, 0.9)',
-            borderRadius: 6,
-            padding: { top: 3, bottom: 3, left: 6, right: 6 },
-            font: { family: 'Tajawal', weight: '800', size: 15 },
-            formatter: function(value) {
-                return Number(value).toLocaleString('ar-EG');
-            }
-        };
-    }
-
-    // رسم وتحديث الـ 5 رسوم بيانية معاً وحساب الكروت
-    function renderAllCharts() {
-        if (!fullDataset || fullDataset.length === 0) return;
-
-        const xCol = document.getElementById('chartXCol').value;
-        const yCol = document.getElementById('chartYCol').value;
-        const chartType = document.getElementById('chartType').value;
-        const agg = document.getElementById('aggType').value;
-
-        const grouped = {};
-        const numericValues = [];
-
-        fullDataset.forEach(row => {
-            const key = String(row[xCol] || 'غير محدد');
-            const val = parseFloat(row[yCol]) || 0;
-            numericValues.push(val);
-
-            if (!grouped[key]) grouped[key] = { sum: 0, count: 0 };
-            grouped[key].sum += val;
-            grouped[key].count += 1;
-        });
-
-        const keys = Object.keys(grouped).slice(0, 12); // أول 12 عنصر لوضوح تام
-        let dataPoints = [];
-        let countPoints = keys.map(k => grouped[k].count);
-
-        if (agg === 'sum') {
-            dataPoints = keys.map(k => grouped[k].sum);
-        } else if (agg === 'avg') {
-            dataPoints = keys.map(k => Number((grouped[k].sum / grouped[k].count).toFixed(2)));
-        } else if (agg === 'count') {
-            dataPoints = countPoints;
-        }
-
-        // حساب قيم الكروت الـ 5
-        const totalSum = numericValues.reduce((a, b) => a + b, 0);
-        const avgVal = numericValues.length ? (totalSum / numericValues.length) : 0;
-        const maxVal = numericValues.length ? Math.max(...numericValues) : 0;
-        const minVal = numericValues.length ? Math.min(...numericValues) : 0;
-        const totalCategories = Object.keys(grouped).length;
-
-        document.getElementById('chartKpiSum').innerText = totalSum.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-        document.getElementById('chartKpiAvg').innerText = avgVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-        document.getElementById('chartKpiMax').innerText = maxVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-        document.getElementById('chartKpiMin').innerText = minVal.toLocaleString('ar-EG', { maximumFractionDigits: 2 });
-        document.getElementById('chartKpiCategories').innerText = totalCategories.toLocaleString('ar-EG');
-
-        document.getElementById('chartKpiSumTitle').innerText = `إجمالي (${yCol})`;
-        document.getElementById('chartKpiAvgTitle').innerText = `متوسط (${yCol})`;
-
-        // 1. الرسم المخصص الأساسي
-        if (chartInstances.main) chartInstances.main.destroy();
-        const ctxMain = document.getElementById('chartMain').getContext('2d');
-        const isMainCirc = ['pie', 'doughnut', 'polarArea'].includes(chartType);
-        chartInstances.main = new Chart(ctxMain, {
-            type: chartType,
-            data: {
-                labels: keys,
-                datasets: [{
-                    label: `${yCol} (${agg === 'sum' ? 'مجموع' : agg === 'avg' ? 'متوسط' : 'تكرار'})`,
-                    data: dataPoints,
-                    backgroundColor: COLOR_PALETTE,
-                    borderWidth: 1.5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: { padding: { top: isMainCirc ? 15 : 35 } },
-                plugins: {
-                    legend: { position: isMainCirc ? 'bottom' : 'top', labels: { font: { family: 'Tajawal', weight: 'bold', size: 13 } } },
-                    datalabels: getCommonDataLabels(isMainCirc)
-                }
-            }
-        });
-
-        // 2. رسم الحصص الدائري (Doughnut)
-        if (chartInstances.doughnut) chartInstances.doughnut.destroy();
-        const ctxDoughnut = document.getElementById('chartDoughnut').getContext('2d');
-        chartInstances.doughnut = new Chart(ctxDoughnut, {
-            type: 'doughnut',
-            data: {
-                labels: keys,
-                datasets: [{ data: dataPoints, backgroundColor: COLOR_PALETTE, borderWidth: 1.5 }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: { padding: 15 },
-                plugins: {
-                    legend: { position: 'bottom', labels: { font: { family: 'Tajawal', size: 12 } } },
-                    datalabels: getCommonDataLabels(true)
-                }
-            }
-        });
-
-        // 3. رسم الاتجاه والتطور (Line Chart)
-        if (chartInstances.trend) chartInstances.trend.destroy();
-        const ctxTrend = document.getElementById('chartTrend').getContext('2d');
-        chartInstances.trend = new Chart(ctxTrend, {
-            type: 'line',
-            data: {
-                labels: keys,
-                datasets: [{
-                    label: `مسار ${yCol}`,
-                    data: dataPoints,
-                    borderColor: '#d97706',
-                    backgroundColor: 'rgba(217, 119, 6, 0.15)',
-                    fill: true,
-                    tension: 0.35,
-                    borderWidth: 3,
-                    pointRadius: 6,
-                    pointBackgroundColor: '#d97706'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: { padding: { top: 35 } },
-                plugins: {
-                    legend: { display: false },
-                    datalabels: getCommonDataLabels(false)
-                }
-            }
-        });
-
-        // 4. رسم تكرار السجلات (Frequency Bar Chart)
-        if (chartInstances.count) chartInstances.count.destroy();
-        const ctxCount = document.getElementById('chartCount').getContext('2d');
-        chartInstances.count = new Chart(ctxCount, {
-            type: 'bar',
-            data: {
-                labels: keys,
-                datasets: [{
-                    label: 'عدد السجلات',
-                    data: countPoints,
-                    backgroundColor: 'rgba(124, 58, 237, 0.85)',
-                    borderColor: '#7c3aed',
-                    borderWidth: 1.5,
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: { padding: { top: 35 } },
-                plugins: {
-                    legend: { display: false },
-                    datalabels: getCommonDataLabels(false)
-                }
-            }
-        });
-
-        // 5. رسم التوزيع القطبي (Polar Area)
-        if (chartInstances.polar) chartInstances.polar.destroy();
-        const ctxPolar = document.getElementById('chartPolar').getContext('2d');
-        chartInstances.polar = new Chart(ctxPolar, {
-            type: 'polarArea',
-            data: {
-                labels: keys,
-                datasets: [{ data: dataPoints, backgroundColor: COLOR_PALETTE, borderWidth: 1.5 }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: { padding: 15 },
-                plugins: {
-                    legend: { position: 'bottom', labels: { font: { family: 'Tajawal', size: 12 } } },
-                    datalabels: getCommonDataLabels(true)
-                }
-            }
-        });
-    }
-
-    function exportFilteredExcel() {
-        if (filteredDataset.length === 0) {
-            alert('لا توجد بيانات لتصديرها.');
-            return;
-        }
-        const ws = XLSX.utils.json_to_sheet(filteredDataset);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "البيانات");
-        XLSX.writeFile(wb, `M_Lily_Export_${Date.now()}.xlsx`);
-    }
-
-    function switchTab(tabId, btn) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
-        
-        if (tabId === 'chartsTab') {
-            setTimeout(() => {
-                Object.values(chartInstances).forEach(inst => {
-                    if (inst) inst.resize();
-                });
-            }, 50);
-        }
-    }
-
-    function updateBadge(state, text) {
-        const b = document.getElementById('statusBadge');
-        b.className = `status status-${state}`;
-        let icon = state === 'loading' ? '<i class="fa-solid fa-spinner fa-spin"></i>' : 
-                   state === 'success' ? '<i class="fa-solid fa-circle-check"></i>' : 
-                   '<i class="fa-solid fa-circle-xmark"></i>';
-        b.innerHTML = `${icon} ${text}`;
-    }
-</script>
-
-</body>
-</html>
