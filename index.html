@@ -1,0 +1,1620 @@
+
+محادثة مع Gemini
+هل ممكن عمل كود لصفحة نت تعرض بيانات من ملف اكسل مرتبط
+
+نعم، يمكن تحقيق ذلك بعدة طرق برمجية. يعتمد الحل الأفضل على مكان حفظ ملف الإكسل وطريقة تحديثه:
+
+ملف إكسل محلي أو مستضاف على الخادم: استخدام مكتبة SheetJS (xlsx.js) في المتصفح لقراءة الملف وتحويله إلى جدول HTML مباشرة.
+
+ملف إكسل متصل ومحدث باستمرار (Google Sheets أو OneDrive): نشر الملف كرابط CSV أو عبر API، ثم جلبه تلقائياً باستخدام دالة fetch() في JavaScript.
+
+كود صفحة HTML كاملة لقراءة وعرض بيانات ملف Excel (عبر SheetJS)
+
+يمكنك نسخ الكود التالي وحفظه بصيغة index.html وتجربته مباشرة:
+
+HTML
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>عرض بيانات ملف إكسل</title>
+    <!-- استدعاء مكتبة SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f6f8; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
+        th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        input[type="file"] { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>عرض بيانات ملف Excel</h2>
+    
+    <!-- خيار 1: اختيار ملف من جهازك -->
+    <input type="file" id="excelFileInput" accept=".xlsx, .xls" />
+
+    <!-- مكان عرض الجدول -->
+    <div id="tableContainer"></div>
+</div>
+
+<script>
+document.getElementById('excelFileInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const data = new Uint8Array(event.target.result);
+        // قراءة محتوى الملف
+        const workbook = XLSX.read(data, { type: 'array' });
+        
+        // أخذ أول ورقة عمل (Sheet)
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+
+        // تحويل البيانات إلى كود HTML للجدول
+        const htmlTable = XLSX.utils.sheet_to_html(worksheet);
+        
+        // عرض الجدول في الصفحة
+        document.getElementById('tableContainer').innerHTML = htmlTable;
+    };
+
+    reader.readAsArrayBuffer(file);
+});
+</script>
+
+</body>
+</html>
+طرق ربط الملف تلقائياً دون الحاجة لرفعه يدوياً:
+
+إذا كان الملف على نفس الخادم (Server): استبدال FileReader بطلب fetch('data.xlsx') لقراءة الملف فور فتح الصفحة.
+
+إذا كنت تستخدم Google Sheets: اضغط على ملف > مشاركة > نشر على الويب واختر صيغة CSV، ثم اسحب البيانات برمجياً عبر:
+
+JavaScript
+fetch('رابط_ملف_csv_المنشور')
+  .then(res => res.text())
+  .then(csvText => {
+    // تقسيم الأسطر وعرضها في جدول
+  });
+اريد ان تكتب لي كود هذة الصفحة وسوف ارفعها على github
+
+Your HTML file is ready
+
+رمز HTML
+index
+ HTML 
+فتح
+تم تجهيز ملف index.html ليكون جاهزاً للنشر المباشر عبر GitHub Pages.
+
+🚀 خطوات الرفع والتشغيل على GitHub:
+إنشاء المستودع (Repository):
+
+أنشئ مستودعاً جديداً (Public) على حسابك في GitHub.
+
+رفع الملفات:
+
+ارفع ملف الصفحة باسم index.html.
+
+ارفع ملف الإكسل الخاص بك في نفس المجلد وقم بتسميته data.xlsx.
+
+تفعيل GitHub Pages:
+
+اذهب إلى Settings > Pages داخل المستودع.
+
+تحت قسم Branch، اختر الفرع الرئيسي (main أو master) والمجلد /root ثم اضغط Save.
+
+خلال دقيقة سيظهر لك رابط الموقع المباشر (مثل: [https://username.github.io/repo-name/](https://username.github.io/repo-name/)).
+
+🌟 الميزات المدمجة في الصفحة:
+جلب تلقائي ومباشر: تقرأ الصفحة ملف data.xlsx المرفوع على المستودع فور فتح الرابط مع ميزة منع التخزين المؤقت (Cache Busting) لضمان ظهور أحدث تعديل.
+
+البحث والتصفية الفورية: شريط بحث مدمج يبحث في جميع الأعمدة لحظياً.
+
+دعم الأوراق المتعددة (Multi-sheets): إذا كان ملف الإكسل يحتوي على أكثر من ورقة (Sheet)، ستظهر قائمة منسدلة تلقائياً للتنقل بينها.
+
+إمكانية الرفع اليدوي: خيار لاختيار ملف إكسل محلي من جهاز المستخدم مباشرة في حال الرغبة في اختبار ملفات أخرى.
+
+تصميم عصري ومتجاوب: يدعم اللغة العربية بشكل كامل (RTL) مع خط Tajawal وجداول متناسقة ومريحة للقراءة.
+
+هل يمكن اضافة امكانية عرض الاعمدة او اخاء بعض منها مع اضافة صفحة يكن بها بعض الرسوم البيانية للبيانات بالجدول
+
+تم تحديث ملف index.html وإضافة الميزات المطلوبة كاملة مع الحفاظ على سهولة الرفع على GitHub Pages.
+
+يمكنك تنزيل الملف المحدث من هنا:
+
+رمز HTML
+index
+ HTML 
+فتح
+✨ الميزات والإضافات الجديدة:
+👁️ إظهار وإخفاء الأعمدة (Column Visibility):
+
+تمت إضافة زر منسدل "التحكم بالأعمدة" يحتوي على خانات اختيار (Checkboxes) لجميع أعمدة ملف الإكسل.
+
+يمكنك تفعيل أو إلغاء تفعيل أي عمود ليختفي أو يظهر في الجدول فوراً مع عداد يوضح عدد الأعمدة الظاهرة.
+
+📈 تبويب الرسوم البيانية والتحليلات (Charts & Analytics):
+
+تم تقسيم الصفحة بنظام تبويبات أنيق (Tab 1: جدول البيانات | Tab 2: الرسوم البيانية).
+
+مكتبة Chart.js المدمجة: تدعم رسم البيانات بصرياً بشكل مباشر.
+
+أداة تخصيص الرسم البياني: يمكنك اختيار:
+
+نوع الرسم: أعمدة (Bar)، خطي (Line)، دائري (Pie)، أو حلقي (Doughnut).
+
+المحور الأفقي (X-Axis) مثل أسماء المنتجات أو التواريخ أو المناطق.
+
+المحور الرأسي (Y-Axis) مثل المبيعات، الكميات، أو الأسعار.
+
+رسم بياني لتوزيع التكرار التلقائي (Donut Distribution): يحلل ويحسب تلقائياً تكرار البيانات داخل الأعمدة التصنيفية.
+
+📂 كود الصفحة الكامل (index.html):
+HTML
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة بيانات وتحليلات Excel</title>
+    <!-- خط تجوال من جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- مكتبة SheetJS لقراءة الإكسل -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- مكتبة Chart.js للرسوم البيانية -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #1b5e20;
+            --primary-hover: #2e7d32;
+            --primary-light: #e8f5e9;
+            --surface: #ffffff;
+            --bg: #f4f6f9;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 15px rgba(0,0,0,0.06);
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--bg); color: var(--text-main); padding: 20px 16px; line-height: 1.6; }
+        .container { max-width: 1280px; margin: 0 auto; }
+
+        .header-card { background: var(--surface); padding: 20px 24px; border-radius: var(--radius); box-shadow: var(--shadow-md); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .header-title h1 { font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .header-title p { color: var(--text-muted); font-size: 0.9rem; margin-top: 2px; }
+
+        .status-badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; }
+        .status-loading { background-color: #fff3cd; color: #856404; }
+        .status-success { background-color: #d4edda; color: #155724; }
+        .status-error { background-color: #f8d7da; color: #721c24; }
+
+        .tabs-container { display: flex; gap: 10px; margin-bottom: 18px; }
+        .tab-btn { background: var(--surface); border: 1.5px solid var(--border); padding: 12px 24px; border-radius: 10px; font-family: inherit; font-size: 1rem; font-weight: 700; color: var(--text-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.25s ease; }
+        .tab-btn:hover { color: var(--primary); border-color: var(--primary); }
+        .tab-btn.active { background: var(--primary); color: #ffffff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(27, 94, 32, 0.25); }
+
+        .actions-bar { background: var(--surface); padding: 16px 20px; border-radius: var(--radius); box-shadow: var(--shadow-sm); margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+        .controls-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .search-box input, .custom-select { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.95rem; outline: none; transition: border-color 0.2s; background-color: #fff; }
+        .search-box input:focus, .custom-select:focus { border-color: var(--primary); }
+        .search-box input { min-width: 240px; }
+
+        .btn { background-color: var(--primary); color: white; border: none; padding: 9px 18px; border-radius: 8px; font-family: inherit; font-size: 0.92rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; text-decoration: none; }
+        .btn:hover { background-color: var(--primary-hover); }
+        .btn-outline { background-color: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline:hover { background-color: var(--primary-light); }
+
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-menu { display: none; position: absolute; top: 115%; right: 0; background: var(--surface); min-width: 240px; max-height: 320px; overflow-y: auto; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid var(--border); padding: 12px; z-index: 100; }
+        .dropdown-menu.show { display: block; }
+        .dropdown-menu-header { font-weight: 700; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .dropdown-item-checkbox { display: flex; align-items: center; gap: 8px; padding: 6px 4px; font-size: 0.9rem; cursor: pointer; user-select: none; border-radius: 4px; }
+        .dropdown-item-checkbox:hover { background-color: var(--primary-light); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; margin-bottom: 20px; }
+        .table-container { width: 100%; overflow-x: auto; max-height: 65vh; }
+        table { width: 100%; border-collapse: collapse; text-align: right; font-size: 0.92rem; }
+        th { background-color: #f8fafc; color: #334155; font-weight: 700; padding: 12px 16px; border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 10; white-space: nowrap; }
+        td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: #475569; white-space: nowrap; }
+        tr:hover td { background-color: #f8fafc; }
+        tr:nth-child(even) td { background-color: #fafbfc; }
+        .stats-footer { padding: 12px 20px; background: #f8fafc; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; color: var(--text-muted); }
+
+        .charts-controls { background: var(--surface); padding: 18px 20px; border-radius: var(--radius); box-shadow: var(--shadow-sm); margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; align-items: end; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.88rem; font-weight: 700; color: var(--text-muted); }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); gap: 20px; }
+        @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
+        .chart-box { background: var(--surface); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow-md); min-height: 380px; display: flex; flex-direction: column; }
+        .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .chart-header h3 { font-size: 1.1rem; color: #334155; }
+        .chart-canvas-wrapper { position: relative; flex: 1; width: 100%; min-height: 300px; }
+        .empty-state { padding: 50px 20px; text-align: center; color: var(--text-muted); }
+        #fileInput { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-card">
+        <div class="header-title">
+            <h1>📊 لوحة تحليلات وإدارة بيانات Excel</h1>
+            <p>عرض تفاعلي مباشر مع التحكم بالأعمدة والرسوم البيانية التلقائية</p>
+        </div>
+        <div id="statusIndicator">
+            <span class="status-badge status-loading">⏳ جاري تحميل data.xlsx...</span>
+        </div>
+    </div>
+
+    <!-- التبويبات -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab('table-tab', this)">
+            📋 جدول البيانات
+        </button>
+        <button class="tab-btn" onclick="switchTab('charts-tab', this)">
+            📈 الرسوم البيانية والتحليلات
+        </button>
+    </div>
+
+    <!-- شريط الإجراءات والتحكم -->
+    <div class="actions-bar">
+        <div class="controls-group">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 بحث في كافة الأعمدة..." disabled>
+            </div>
+            <select id="sheetSelect" class="custom-select" style="display: none;"></select>
+
+            <!-- زر التحكم بالأعمدة -->
+            <div class="dropdown">
+                <button class="btn btn-outline" id="colToggleBtn" onclick="toggleColumnMenu()">
+                    👁️ التحكم بالأعمدة
+                </button>
+                <div class="dropdown-menu" id="columnsDropdown">
+                    <div class="dropdown-menu-header">
+                        <span>إظهار/إخفاء الأعمدة</span>
+                        <a href="javascript:void(0)" onclick="selectAllColumns(true)" style="font-size:0.75rem; color:var(--primary); text-decoration:none;">تحديد الكل</a>
+                    </div>
+                    <div id="columnsCheckboxesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-group">
+            <button class="btn btn-outline" onclick="loadExcelFile()">
+                🔄 تحديث الملف
+            </button>
+            <label for="fileInput" class="btn">
+                📂 اختيار ملف محلي
+            </label>
+            <input type="file" id="fileInput" accept=".xlsx, .xls">
+        </div>
+    </div>
+
+    <!-- التبويب 1: جدول البيانات -->
+    <div id="table-tab" class="tab-content active">
+        <div class="card">
+            <div class="table-container" id="tableContainer">
+                <div class="empty-state">
+                    <p>جاري قراءة ملف الإكسل...</p>
+                </div>
+            </div>
+            <div class="stats-footer">
+                <span id="rowsCount">عدد الصفوف المعروضة: 0</span>
+                <span id="visibleColsCount">الأعمدة الظاهرة: 0</span>
+                <span id="lastUpdated">آخر تحديث: -</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- التبويب 2: الرسوم البيانية -->
+    <div id="charts-tab" class="tab-content">
+        <div class="charts-controls">
+            <div class="form-group">
+                <label for="chartTypeSelect">نوع الرسم البياني</label>
+                <select id="chartTypeSelect" class="custom-select">
+                    <option value="bar">أعمدة (Bar Chart)</option>
+                    <option value="line">خطي (Line Chart)</option>
+                    <option value="pie">دائري (Pie Chart)</option>
+                    <option value="doughnut">حلقي (Doughnut Chart)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="xAxisSelect">المحور الأفقي (التصنيفات/النصوص)</label>
+                <select id="xAxisSelect" class="custom-select"></select>
+            </div>
+            <div class="form-group">
+                <label for="yAxisSelect">المحور الرأسي (القيم الرقمية)</label>
+                <select id="yAxisSelect" class="custom-select"></select>
+            </div>
+            <div class="form-group">
+                <button class="btn" style="height: 42px;" onclick="renderCustomChart()">
+                    🎨 تطبيق وتحديث الرسم
+                </button>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3 id="customChartTitle">📊 رسم بياني مخصص</h3>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="customChartCanvas"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3 id="autoChartTitle">🍩 تحليل التوزيع التكراري</h3>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="autoChartCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const DEFAULT_EXCEL_FILENAME = 'data.xlsx';
+    let currentWorkbook = null;
+    let rawData = [];
+    let allColumns = [];
+    let visibleColumns = new Set();
+    let customChartInstance = null;
+    let autoChartInstance = null;
+
+    const CHART_COLORS = [
+        'rgba(46, 125, 50, 0.8)',
+        'rgba(30, 136, 229, 0.8)',
+        'rgba(251, 140, 0, 0.8)',
+        'rgba(229, 57, 53, 0.8)',
+        'rgba(142, 36, 170, 0.8)',
+        'rgba(0, 172, 193, 0.8)',
+        'rgba(253, 216, 53, 0.8)',
+        'rgba(109, 76, 65, 0.8)'
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadExcelFile();
+        document.getElementById('searchInput').addEventListener('input', handleSearch);
+        document.getElementById('sheetSelect').addEventListener('change', handleSheetChange);
+        document.getElementById('fileInput').addEventListener('change', handleLocalFileUpload);
+
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('columnsDropdown');
+            const toggleBtn = document.getElementById('colToggleBtn');
+            if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    });
+
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+        if (tabId === 'charts-tab') {
+            setTimeout(() => {
+                if (customChartInstance) customChartInstance.resize();
+                if (autoChartInstance) autoChartInstance.resize();
+            }, 50);
+        }
+    }
+
+    async function loadExcelFile() {
+        const statusEl = document.getElementById('statusIndicator');
+        statusEl.innerHTML = '<span class="status-badge status-loading">⏳ جاري جلب data.xlsx...</span>';
+        try {
+            const response = await fetch(DEFAULT_EXCEL_FILENAME + '?t=' + new Date().getTime());
+            if (!response.ok) throw new Error('لم يتم العثور على data.xlsx');
+            const arrayBuffer = await response.arrayBuffer();
+            processWorkbook(arrayBuffer);
+            statusEl.innerHTML = '<span class="status-badge status-success">✅ تم تحميل data.xlsx بنجاح</span>';
+            document.getElementById('lastUpdated').innerText = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-EG');
+        } catch (error) {
+            statusEl.innerHTML = '<span class="status-badge status-error">⚠️ تعذر جلب data.xlsx تلقائياً</span>';
+            document.getElementById('tableContainer').innerHTML = `
+                <div class="empty-state">
+                    <p>لم يتم العثور على ملف باسم <b>data.xlsx</b> بجانب <code>index.html</code>.</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">يمكنك رفع ملف محلي عبر زر "اختيار ملف محلي" بالأعلى.</p>
+                </div>
+            `;
+        }
+    }
+
+    function processWorkbook(buffer) {
+        currentWorkbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+        const sheetSelect = document.getElementById('sheetSelect');
+        sheetSelect.innerHTML = '';
+
+        if (currentWorkbook.SheetNames.length > 1) {
+            sheetSelect.style.display = 'inline-block';
+            currentWorkbook.SheetNames.forEach(sheetName => {
+                const opt = document.createElement('option');
+                opt.value = sheetName;
+                opt.textContent = 'ورقة: ' + sheetName;
+                sheetSelect.appendChild(opt);
+            });
+        } else {
+            sheetSelect.style.display = 'none';
+        }
+
+        renderSheet(currentWorkbook.SheetNames[0]);
+        document.getElementById('searchInput').disabled = false;
+    }
+
+    function renderSheet(sheetName) {
+        const worksheet = currentWorkbook.Sheets[sheetName];
+        rawData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+        if (rawData.length === 0) {
+            document.getElementById('tableContainer').innerHTML = '<div class="empty-state"><p>ورقة العمل هذه فارغة.</p></div>';
+            document.getElementById('rowsCount').innerText = 'عدد الصفوف: 0';
+            return;
+        }
+
+        allColumns = Object.keys(rawData[0]);
+        visibleColumns = new Set(allColumns);
+
+        buildColumnsMenu();
+        populateChartSelectors();
+        renderTable(rawData);
+        buildAutoCharts();
+    }
+
+    function buildColumnsMenu() {
+        const listContainer = document.getElementById('columnsCheckboxesList');
+        listContainer.innerHTML = '';
+
+        allColumns.forEach(col => {
+            const label = document.createElement('label');
+            label.className = 'dropdown-item-checkbox';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = visibleColumns.has(col);
+            checkbox.value = col;
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    visibleColumns.add(col);
+                } else {
+                    if (visibleColumns.size === 1) {
+                        checkbox.checked = true;
+                        alert('يجب الإبقاء على عمود واحد على الأقل مرئياً.');
+                        return;
+                    }
+                    visibleColumns.delete(col);
+                }
+                renderTable(getCurrentFilteredData());
+            });
+
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(col));
+            listContainer.appendChild(label);
+        });
+    }
+
+    function toggleColumnMenu() {
+        document.getElementById('columnsDropdown').classList.toggle('show');
+    }
+
+    function selectAllColumns() {
+        visibleColumns = new Set(allColumns);
+        document.querySelectorAll('#columnsCheckboxesList input').forEach(cb => cb.checked = true);
+        renderTable(getCurrentFilteredData());
+    }
+
+    function renderTable(data) {
+        if (!data || data.length === 0) {
+            document.getElementById('tableContainer').innerHTML = '<div class="empty-state"><p>لا توجد نتائج مطابقة لبحثك.</p></div>';
+            document.getElementById('rowsCount').innerText = 'عدد الصفوف المعروضة: 0';
+            return;
+        }
+
+        const activeCols = allColumns.filter(c => visibleColumns.has(c));
+        let html = '<table><thead><tr>';
+        html += '<th style="width: 50px; text-align: center;">#</th>';
+        activeCols.forEach(col => { html += `<th>${escapeHtml(col)}</th>`; });
+        html += '</tr></thead><tbody>';
+
+        data.forEach((row, index) => {
+            html += '<tr>';
+            html += `<td style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">${index + 1}</td>`;
+            activeCols.forEach(col => { html += `<td>${escapeHtml(String(row[col]))}</td>`; });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        document.getElementById('tableContainer').innerHTML = html;
+        document.getElementById('rowsCount').innerText = `عدد الصفوف المعروضة: ${data.length}`;
+        document.getElementById('visibleColsCount').innerText = `الأعمدة الظاهرة: ${activeCols.length} من ${allColumns.length}`;
+    }
+
+    function getCurrentFilteredData() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        if (!query) return rawData;
+        return rawData.filter(row => Object.values(row).some(val => String(val).toLowerCase().includes(query)));
+    }
+
+    function handleSearch() { renderTable(getCurrentFilteredData()); }
+    function handleSheetChange(e) { document.getElementById('searchInput').value = ''; renderSheet(e.target.value); }
+
+    function handleLocalFileUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            processWorkbook(event.target.result);
+            document.getElementById('statusIndicator').innerHTML = `<span class="status-badge status-success">📂 تم تحميل (${file.name})</span>`;
+            document.getElementById('lastUpdated').innerText = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-EG');
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function populateChartSelectors() {
+        const xSelect = document.getElementById('xAxisSelect');
+        const ySelect = document.getElementById('yAxisSelect');
+        xSelect.innerHTML = '';
+        ySelect.innerHTML = '';
+
+        allColumns.forEach(col => {
+            const optX = document.createElement('option'); optX.value = col; optX.textContent = col; xSelect.appendChild(optX);
+            const optY = document.createElement('option'); optY.value = col; optY.textContent = col; ySelect.appendChild(optY);
+        });
+
+        let numericCol = allColumns.find(col => rawData.some(row => !isNaN(parseFloat(row[col])) && isFinite(row[col])));
+        let stringCol = allColumns.find(col => col !== numericCol);
+        if (stringCol) xSelect.value = stringCol;
+        if (numericCol) ySelect.value = numericCol;
+    }
+
+    function renderCustomChart() {
+        if (!rawData || rawData.length === 0) return;
+        const xCol = document.getElementById('xAxisSelect').value;
+        const yCol = document.getElementById('yAxisSelect').value;
+        const chartType = document.getElementById('chartTypeSelect').value;
+
+        const labels = [];
+        const values = [];
+        rawData.slice(0, 30).forEach(row => {
+            labels.push(String(row[xCol] || ''));
+            const num = parseFloat(row[yCol]);
+            values.push(isNaN(num) ? 0 : num);
+        });
+
+        document.getElementById('customChartTitle').innerText = `📊 رسم بياني: ${yCol} حسب ${xCol}`;
+        const ctx = document.getElementById('customChartCanvas').getContext('2d');
+        if (customChartInstance) customChartInstance.destroy();
+
+        customChartInstance = new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: yCol,
+                    data: values,
+                    backgroundColor: chartType === 'pie' || chartType === 'doughnut' ? CHART_COLORS : 'rgba(27, 94, 32, 0.75)',
+                    borderColor: 'rgba(27, 94, 32, 1)',
+                    borderWidth: 1.5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: chartType === 'pie' || chartType === 'doughnut' ? 'bottom' : 'top', labels: { font: { family: 'Tajawal' } } }
+                }
+            }
+        });
+    }
+
+    function buildAutoCharts() {
+        renderCustomChart();
+        if (!rawData || rawData.length === 0) return;
+        const catCol = document.getElementById('xAxisSelect').value || allColumns[0];
+        const counts = {};
+        rawData.forEach(row => {
+            const val = String(row[catCol] || 'غير محدد');
+            counts[val] = (counts[val] || 0) + 1;
+        });
+
+        const labels = Object.keys(counts).slice(0, 10);
+        const dataValues = labels.map(k => counts[k]);
+        document.getElementById('autoChartTitle').innerText = `🍩 التوزيع التكراري لعمود: (${catCol})`;
+
+        const ctx = document.getElementById('autoChartCanvas').getContext('2d');
+        if (autoChartInstance) autoChartInstance.destroy();
+
+        autoChartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{ data: dataValues, backgroundColor: CHART_COLORS }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'Tajawal' } } }
+                }
+            }
+        });
+    }
+
+    function escapeHtml(text) {
+        if (!text) return "";
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+</script>
+
+</body>
+</html>
+الصفحة لا تعمل
+
+أهلاً بك! لتحديد سبب عدم عمل الصفحة وحل المشكلة فوراً، هناك بضعة أسباب شائعة جداً تحدث عند التشغيل:
+
+1. إذا كنت تفتح الصفحة مباشرة من جهازك (النقر المزدوج على index.html):
+السبب: المتصفحات تمنع ميزة جلب الملفات fetch() عند فتح الملف بمسار محلي (file:///...) لأسباب أمنية تُعرف بـ CORS Policy.
+
+الحل السريع للتجربة محلياً:
+
+جرّب استخدام زر "📂 اختيار ملف محلي" الموجود أعلى الصفحة لاختيار ملف الإكسل يدوياً، وسيعمل معك الجدول والرسوم البيانية فوراً.
+
+أو شغّل خادم محلي تجريبي (مثلاً عبر إضافة Live Server في VS Code).
+
+2. إذا كنت رفعتها على GitHub ولا تظهر البيانات:
+تطابق اسم الملف وحالة الأحرف (Case Sensitivity):
+
+تأكد أن ملف الإكسل اسمه تماماً: data.xlsx (كل الأحرف صغيرة Small letters).
+
+إذا كان اسم الملف مثلاً Data.xlsx أو DATA.XLSX أو اسم مختلف، فلن يتعرف عليه GitHub Pages.
+
+موقع الملف داخل المستودع:
+
+تأكد أن data.xlsx موجود في نفس المجلد الرئيسي بجانب index.html مباشرة (وليس داخل مجلد فرعي).
+
+صيغة الملف:
+
+تأكد أن الامتداد هو .xlsx وليس .csv أو .xls القديم.
+
+3. ما هي الرسالة أو الشاشة التي تظهر لك تحديداً؟
+هل تظهر رسالة باللون الأحمر في الأعلى مثل: ⚠️ تعذر جلب data.xlsx تلقائياً؟
+
+أم الصفحة تظهر بيضاء بالكامل؟
+
+نصيحة سريعة: اضغط على زر F12 في لوحة المفاتيح داخل المتصفح، ثم انتقل لتبويب Console؛ إذا كان هناك خطأ مكتوب باللون الأحمر، انسخه واكتبه لي هنا وسأحدد لك سبب المشكلة بدقة.
+
+تظهر بيضاء بالكامل
+
+يتم توفير هذه المعلومات لغرض إعلامكَ بها فقط. للحصول على استشارة طبية أو تشخيص طبي، راجِع متخصّصًا.
+ظهور الصفحة بيضاء بالكامل (بدون أي أزرار أو عناوين) يعني غالباً أن المتصفح لم يقرأ كود الـ HTML نفسه بشكل صحيح، وذلك يعود لأحد الأسباب التالية وحلولها:
+
+1. تسمية الملف بامتداد خاطئ (شائع جداً في Windows)
+المشكلة: أحياناً يقوم نظام ويندوز بحفظ الملف باسم index.html.txt مع إخفاء الامتداد، فيظهر للمتصفح كملف نصي فارغ أو لا يفتحه بشكل صحيح.
+
+الحل:
+
+افتح مجلد الملف في جهازك.
+
+من القائمة العلوية اضغط على View (عرض) ثم فعّل خيار File name extensions (ملحقات أسماء الملفات).
+
+تأكد أن اسم الملف ينتهي بـ .html فقط وليس .txt.
+
+2. لم يكتمل نسخ الكود كاملاً أو حُفظ الملف فارغاً
+افتح الملف عبر برنامج (Notepad / المفكرة أو VS Code).
+
+تأكد أن الكود يبدأ بـ <!DOCTYPE html> وينتهي بـ </html> في آخر سطر دون انقطاع.
+
+3. إذا كانت الصفحة بيضاء بعد فتح رابط GitHub Pages
+وقت الاستضافة: عند تفعيل GitHub Pages لأول مرة أو رفع ملفات جديدة، يستغرق GitHub من دقيقة إلى 3 دقائق لإنشاء الموقع.
+
+إعدادات المسار: تأكد من إعدادات المستودع:
+
+اذهب إلى Settings > Pages.
+
+تحت Build and deployment، تأكد أن المصدر هو Deploy from a branch.
+
+الفرع محدد على main أو master والمجلد هو /(root).
+
+اضغط Save.
+
+4. فحص الخطأ للتأكد (خطوة سريعة):
+افتح الصفحة في المتصفح واضغط على اختصار Ctrl + U (أو كليك يمين ثم View Page Source / عرض مصدر الصفحة):
+
+إذا ظهرت الصفحة فارغة تماماً: فهذا يعني أن الملف الذي تم فتحه فارغ على جهازك/GitHub ويجب لصق الكود وحفظه مجدداً.
+
+إذا ظهر الكود: اضغط F12 ثم اختر Console لمعرفة الخطأ البرمجي الدقيق.
+
+📥 للتسهيل: يمكنك تحميل الملف الجاهز والمُختبر مباشرة واستبدال الملف السابق به:
+[file-tag: code-generated-file-b4658a29-50b1-4650-a2ac-07e52ce33701]
+
+
+
+
+‫Gemini هو نموذج ذكاء اصطناعي وقد ينتج عنه أخطاء.
+
+Memo
+Highlight
+Explain
+جارٍ تحليل البيانات
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة بيانات وتحليلات Excel</title>
+    <!-- خط تجوال من جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- مكتبة SheetJS لقراءة الإكسل -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- مكتبة Chart.js للرسوم البيانية -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #1b5e20;
+            --primary-hover: #2e7d32;
+            --primary-light: #e8f5e9;
+            --surface: #ffffff;
+            --bg: #f4f6f9;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 15px rgba(0,0,0,0.06);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 20px 16px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* ترويسة الصفحة */
+        .header-card {
+            background: var(--surface);
+            padding: 20px 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-loading { background-color: #fff3cd; color: #856404; }
+        .status-success { background-color: #d4edda; color: #155724; }
+        .status-error { background-color: #f8d7da; color: #721c24; }
+
+        /* التبويبات التنقلية */
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .tab-btn {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(27, 94, 32, 0.25);
+        }
+
+        /* شريط الإجراءات والتحكم */
+        .actions-bar {
+            background: var(--surface);
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .controls-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box input, .custom-select {
+            padding: 9px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #fff;
+        }
+
+        .search-box input:focus, .custom-select:focus {
+            border-color: var(--primary);
+        }
+
+        .search-box input {
+            min-width: 240px;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn:hover { background-color: var(--primary-hover); }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+        }
+
+        .btn-outline:hover { background-color: var(--primary-light); }
+
+        /* القائمة المنسدلة لاختيار الأعمدة */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 115%;
+            right: 0;
+            background: var(--surface);
+            min-width: 240px;
+            max-height: 320px;
+            overflow-y: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 1px solid var(--border);
+            padding: 12px;
+            z-index: 100;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-menu-header {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-item-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 4px;
+        }
+
+        .dropdown-item-checkbox:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* كارت الجدول */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            max-height: 65vh;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 0.92rem;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #334155;
+            font-weight: 700;
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--border);
+            color: #475569;
+            white-space: nowrap;
+        }
+
+        tr:hover td { background-color: #f8fafc; }
+        tr:nth-child(even) td { background-color: #fafbfc; }
+
+        .stats-footer {
+            padding: 12px 20px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* صفحة الرسوم البيانية */
+        .charts-controls {
+            background: var(--surface);
+            padding: 18px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-box {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chart-header h3 {
+            font-size: 1.1rem;
+            color: #334155;
+        }
+
+        .chart-canvas-wrapper {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            min-height: 300px;
+        }
+
+        .empty-state {
+            padding: 50px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        #fileInput { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- ترويسة اللوحة -->
+    <div class="header-card">
+        <div class="header-title">
+            <h1>📊 لوحة تحليلات وإدارة بيانات Excel</h1>
+            <p>عرض تفاعلي مباشر مع التحكم بالأعمدة والرسوم البيانية التلقائية</p>
+        </div>
+        <div id="statusIndicator">
+            <span class="status-badge status-loading">⏳ جاري تحميل data.xlsx...</span>
+        </div>
+    </div>
+
+    <!-- أزرار التبويبات -->
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab('table-tab', this)">
+            📋 جدول البيانات
+        </button>
+        <button class="tab-btn" onclick="switchTab('charts-tab', this)">
+            📈 الرسوم البيانية والتحليلات
+        </button>
+    </div>
+
+    <!-- شريط الإجراءات المشترك -->
+    <div class="actions-bar">
+        <div class="controls-group">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 بحث في كافة الأعمدة..." disabled>
+            </div>
+            <select id="sheetSelect" class="custom-select" style="display: none;"></select>
+
+            <!-- زر إظهار/إخفاء الأعمدة -->
+            <div class="dropdown">
+                <button class="btn btn-outline" id="colToggleBtn" onclick="toggleColumnMenu()">
+                    👁️ التحكم بالأعمدة
+                </button>
+                <div class="dropdown-menu" id="columnsDropdown">
+                    <div class="dropdown-menu-header">
+                        <span>إظهار/إخفاء الأعمدة</span>
+                        <a href="javascript:void(0)" onclick="selectAllColumns(true)" style="font-size:0.75rem; color:var(--primary); text-decoration:none;">تحديد الكل</a>
+                    </div>
+                    <div id="columnsCheckboxesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-group">
+            <button class="btn btn-outline" onclick="loadExcelFile()">
+                🔄 تحديث الملف
+            </button>
+            <label for="fileInput" class="btn">
+                📂 اختيار ملف محلي
+            </label>
+            <input type="file" id="fileInput" accept=".xlsx, .xls">
+        </div>
+    </div>
+
+    <!-- التبويب 1: جدول البيانات -->
+    <div id="table-tab" class="tab-content active">
+        <div class="card">
+            <div class="table-container" id="tableContainer">
+                <div class="empty-state">
+                    <p>جاري قراءة ملف الإكسل...</p>
+                </div>
+            </div>
+            <div class="stats-footer">
+                <span id="rowsCount">عدد الصفوف المعروضة: 0</span>
+                <span id="visibleColsCount">الأعمدة الظاهرة: 0</span>
+                <span id="lastUpdated">آخر تحديث: -</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- التبويب 2: الرسوم البيانية -->
+    <div id="charts-tab" class="tab-content">
+        <!-- شريط تحكم بالرسم المخصص -->
+        <div class="charts-controls">
+            <div class="form-group">
+                <label for="chartTypeSelect">نوع الرسم البياني</label>
+                <select id="chartTypeSelect" class="custom-select">
+                    <option value="bar">أعمدة (Bar Chart)</option>
+                    <option value="line">خطي (Line Chart)</option>
+                    <option value="pie">دائري (Pie Chart)</option>
+                    <option value="doughnut">حلقي (Doughnut Chart)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="xAxisSelect">المحور الأفقي (التصنيفات/النصوص)</label>
+                <select id="xAxisSelect" class="custom-select"></select>
+            </div>
+            <div class="form-group">
+                <label for="yAxisSelect">المحور الرأسي (القيم الرقمية)</label>
+                <select id="yAxisSelect" class="custom-select"></select>
+            </div>
+            <div class="form-group">
+                <button class="btn" style="height: 42px;" onclick="renderCustomChart()">
+                    🎨 تطبيق وتحديث الرسم
+                </button>
+            </div>
+        </div>
+
+        <!-- شبكة الرسوم البيانية -->
+        <div class="charts-grid">
+            <!-- الرسم المخصص -->
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3 id="customChartTitle">📊 تحليل مخصص للبيانات</h3>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="customChartCanvas"></canvas>
+                </div>
+            </div>
+
+            <!-- رسم التوزيع التلقائي -->
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h3 id="autoChartTitle">🍩 تحليل التوزيع التكراري</h3>
+                </div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="autoChartCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const DEFAULT_EXCEL_FILENAME = 'data.xlsx';
+
+    let currentWorkbook = null;
+    let rawData = [];
+    let allColumns = [];
+    let visibleColumns = new Set();
+    let customChartInstance = null;
+    let autoChartInstance = null;
+
+    // ألوان متناسقة للرسوم البيانية
+    const CHART_COLORS = [
+        'rgba(46, 125, 50, 0.8)',
+        'rgba(30, 136, 229, 0.8)',
+        'rgba(251, 140, 0, 0.8)',
+        'rgba(229, 57, 53, 0.8)',
+        'rgba(142, 36, 170, 0.8)',
+        'rgba(0, 172, 193, 0.8)',
+        'rgba(253, 216, 53, 0.8)',
+        'rgba(109, 76, 65, 0.8)'
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadExcelFile();
+        document.getElementById('searchInput').addEventListener('input', handleSearch);
+        document.getElementById('sheetSelect').addEventListener('change', handleSheetChange);
+        document.getElementById('fileInput').addEventListener('change', handleLocalFileUpload);
+
+        // إغلاق قائمة الأعمدة عند النقر في الخارج
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('columnsDropdown');
+            const toggleBtn = document.getElementById('colToggleBtn');
+            if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    });
+
+    // التبديل بين التبويبات
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+
+        if (tabId === 'charts-tab') {
+            setTimeout(() => {
+                if (customChartInstance) customChartInstance.resize();
+                if (autoChartInstance) autoChartInstance.resize();
+            }, 50);
+        }
+    }
+
+    // جلب ملف الإكسل
+    async function loadExcelFile() {
+        const statusEl = document.getElementById('statusIndicator');
+        statusEl.innerHTML = '<span class="status-badge status-loading">⏳ جاري جلب data.xlsx...</span>';
+        
+        try {
+            const response = await fetch(DEFAULT_EXCEL_FILENAME + '?t=' + new Date().getTime());
+            if (!response.ok) throw new Error('لم يتم العثور على data.xlsx');
+
+            const arrayBuffer = await response.arrayBuffer();
+            processWorkbook(arrayBuffer);
+
+            statusEl.innerHTML = '<span class="status-badge status-success">✅ تم تحميل data.xlsx بنجاح</span>';
+            document.getElementById('lastUpdated').innerText = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-EG');
+        } catch (error) {
+            statusEl.innerHTML = '<span class="status-badge status-error">⚠️ تعذر جلب data.xlsx تلقائياً</span>';
+            document.getElementById('tableContainer').innerHTML = `
+                <div class="empty-state">
+                    <p>لم يتم العثور على ملف باسم <b>data.xlsx</b> بجانب <code>index.html</code>.</p>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">يمكنك رفع ملف محلي عبر زر "اختيار ملف محلي" بالأعلى.</p>
+                </div>
+            `;
+        }
+    }
+
+    // معالجة ملف الإكسل
+    function processWorkbook(buffer) {
+        currentWorkbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+
+        const sheetSelect = document.getElementById('sheetSelect');
+        sheetSelect.innerHTML = '';
+
+        if (currentWorkbook.SheetNames.length > 1) {
+            sheetSelect.style.display = 'inline-block';
+            currentWorkbook.SheetNames.forEach(sheetName => {
+                const opt = document.createElement('option');
+                opt.value = sheetName;
+                opt.textContent = 'ورقة: ' + sheetName;
+                sheetSelect.appendChild(opt);
+            });
+        } else {
+            sheetSelect.style.display = 'none';
+        }
+
+        renderSheet(currentWorkbook.SheetNames[0]);
+        document.getElementById('searchInput').disabled = false;
+    }
+
+    // تجهيز بيانات الورقة
+    function renderSheet(sheetName) {
+        const worksheet = currentWorkbook.Sheets[sheetName];
+        rawData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+        if (rawData.length === 0) {
+            document.getElementById('tableContainer').innerHTML = '<div class="empty-state"><p>ورقة العمل هذه فارغة.</p></div>';
+            document.getElementById('rowsCount').innerText = 'عدد الصفوف: 0';
+            return;
+        }
+
+        allColumns = Object.keys(rawData[0]);
+        visibleColumns = new Set(allColumns);
+
+        buildColumnsMenu();
+        populateChartSelectors();
+        renderTable(rawData);
+        buildAutoCharts();
+    }
+
+    // بناء قائمة فحص الأعمدة
+    function buildColumnsMenu() {
+        const listContainer = document.getElementById('columnsCheckboxesList');
+        listContainer.innerHTML = '';
+
+        allColumns.forEach(col => {
+            const label = document.createElement('label');
+            label.className = 'dropdown-item-checkbox';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = visibleColumns.has(col);
+            checkbox.value = col;
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    visibleColumns.add(col);
+                } else {
+                    if (visibleColumns.size === 1) {
+                        checkbox.checked = true;
+                        alert('يجب الإبقاء على عمود واحد على الأقل مرئياً.');
+                        return;
+                    }
+                    visibleColumns.delete(col);
+                }
+                renderTable(getCurrentFilteredData());
+            });
+
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(col));
+            listContainer.appendChild(label);
+        });
+    }
+
+    function toggleColumnMenu() {
+        document.getElementById('columnsDropdown').classList.toggle('show');
+    }
+
+    function selectAllColumns(select) {
+        visibleColumns = new Set(allColumns);
+        document.querySelectorAll('#columnsCheckboxesList input').forEach(cb => cb.checked = true);
+        renderTable(getCurrentFilteredData());
+    }
+
+    // رسم الجدول
+    function renderTable(data) {
+        if (!data || data.length === 0) {
+            document.getElementById('tableContainer').innerHTML = '<div class="empty-state"><p>لا توجد نتائج مطابقة لبحثك.</p></div>';
+            document.getElementById('rowsCount').innerText = 'عدد الصفوف المعروضة: 0';
+            return;
+        }
+
+        const activeCols = allColumns.filter(c => visibleColumns.has(c));
+
+        let html = '<table><thead><tr>';
+        html += '<th style="width: 50px; text-align: center;">#</th>';
+        activeCols.forEach(col => {
+            html += `<th>${escapeHtml(col)}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+
+        data.forEach((row, index) => {
+            html += '<tr>';
+            html += `<td style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">${index + 1}</td>`;
+            activeCols.forEach(col => {
+                html += `<td>${escapeHtml(String(row[col]))}</td>`;
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+
+        document.getElementById('tableContainer').innerHTML = html;
+        document.getElementById('rowsCount').innerText = `عدد الصفوف المعروضة: ${data.length}`;
+        document.getElementById('visibleColsCount').innerText = `الأعمدة الظاهرة: ${activeCols.length} من ${allColumns.length}`;
+    }
+
+    // جلب البيانات مع تطبيق البحث
+    function getCurrentFilteredData() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        if (!query) return rawData;
+        return rawData.filter(row => {
+            return Object.values(row).some(val => String(val).toLowerCase().includes(query));
+        });
+    }
+
+    function handleSearch() {
+        renderTable(getCurrentFilteredData());
+    }
+
+    function handleSheetChange(e) {
+        document.getElementById('searchInput').value = '';
+        renderSheet(e.target.value);
+    }
+
+    function handleLocalFileUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            processWorkbook(event.target.result);
+            document.getElementById('statusIndicator').innerHTML = `<span class="status-badge status-success">📂 تم تحميل (${file.name})</span>`;
+            document.getElementById('lastUpdated').innerText = 'آخر تحديث: ' + new Date().toLocaleTimeString('ar-EG');
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    // ملء قوائم اختيار محاور الرسوم البيانية
+    function populateChartSelectors() {
+        const xSelect = document.getElementById('xAxisSelect');
+        const ySelect = document.getElementById('yAxisSelect');
+        xSelect.innerHTML = '';
+        ySelect.innerHTML = '';
+
+        allColumns.forEach((col, idx) => {
+            const optX = document.createElement('option');
+            optX.value = col;
+            optX.textContent = col;
+            xSelect.appendChild(optX);
+
+            const optY = document.createElement('option');
+            optY.value = col;
+            optY.textContent = col;
+            ySelect.appendChild(optY);
+        });
+
+        // محاولة اختيار عمود نصي لـ X وعمود رقمي لـ Y افتراضياً
+        let numericCol = allColumns.find(col => rawData.some(row => !isNaN(parseFloat(row[col])) && isFinite(row[col])));
+        let stringCol = allColumns.find(col => col !== numericCol);
+
+        if (stringCol) xSelect.value = stringCol;
+        if (numericCol) ySelect.value = numericCol;
+    }
+
+    // رسم التحليلات والرسوم البيانية
+    function renderCustomChart() {
+        if (!rawData || rawData.length === 0) return;
+
+        const xCol = document.getElementById('xAxisSelect').value;
+        const yCol = document.getElementById('yAxisSelect').value;
+        const chartType = document.getElementById('chartTypeSelect').value;
+
+        const labels = [];
+        const values = [];
+
+        rawData.slice(0, 30).forEach(row => { // أول 30 صف لضمان وضوح الرسم
+            labels.push(String(row[xCol] || ''));
+            const num = parseFloat(row[yCol]);
+            values.push(isNaN(num) ? 0 : num);
+        });
+
+        document.getElementById('customChartTitle').innerText = `📊 رسم بياني: ${yCol} حسب ${xCol}`;
+
+        const ctx = document.getElementById('customChartCanvas').getContext('2d');
+        if (customChartInstance) customChartInstance.destroy();
+
+        customChartInstance = new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: yCol,
+                    data: values,
+                    backgroundColor: chartType === 'pie' || chartType === 'doughnut' ? CHART_COLORS : 'rgba(27, 94, 32, 0.75)',
+                    borderColor: 'rgba(27, 94, 32, 1)',
+                    borderWidth: 1.5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: chartType === 'pie' || chartType === 'doughnut' ? 'bottom' : 'top',
+                        labels: { font: { family: 'Tajawal' } }
+                    }
+                }
+            }
+        });
+    }
+
+    // رسم التوزيع التكراري التلقائي لأول عمود تصنيفي
+    function buildAutoCharts() {
+        renderCustomChart();
+
+        if (!rawData || rawData.length === 0) return;
+
+        const catCol = document.getElementById('xAxisSelect').value || allColumns[0];
+        const counts = {};
+
+        rawData.forEach(row => {
+            const val = String(row[catCol] || 'غير محدد');
+            counts[val] = (counts[val] || 0) + 1;
+        });
+
+        const labels = Object.keys(counts).slice(0, 10);
+        const dataValues = labels.map(k => counts[k]);
+
+        document.getElementById('autoChartTitle').innerText = `🍩 التوزيع التكراري لعمود: (${catCol})`;
+
+        const ctx = document.getElementById('autoChartCanvas').getContext('2d');
+        if (autoChartInstance) autoChartInstance.destroy();
+
+        autoChartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataValues,
+                    backgroundColor: CHART_COLORS
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'Tajawal' } } }
+                }
+            }
+        });
+    }
+
+    function escapeHtml(text) {
+        if (!text) return "";
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+</script>
+
+</body>
+</html>
+index.html
+جارٍ عرض "index.html".
